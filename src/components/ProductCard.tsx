@@ -4,6 +4,8 @@ import Cancel from "../assets/components/cancel.svg"
 
 import { useCart } from "@/zustand/useCart"
 import { DetailOrder } from "@/models/DetailOrder.modal"
+import Aos from "aos"
+import "aos/dist/aos.css";
 
 interface ProductCardProps {
   img: string
@@ -26,17 +28,24 @@ export const ProductCard : React.FunctionComponent<ProductCardProps> = ({ img, n
     }
   }, [])
 
-  const incrementQuantity = () => {
+  React.useEffect(() => {
+    Aos.init({
+      once: true,
+      duration: 500,
+    })
+  }, [])
+
+  const incrementQuantity = () : void => {
     if(isAdded) return
     setQuantity(quantity + 1)
   }
 
-  const decrementQuantity = () => {
+  const decrementQuantity = () : void => {
     if (quantity === 1 || isAdded) return
     setQuantity(quantity - 1)
   }
 
-  const handleCart = ({ id, nombre, descripcion, precio, imagen: img }: DetailOrder) => {
+  const handleCart = ({ id, nombre, descripcion, precio, imagen: img }: DetailOrder) : void => {
     if (isAdded) {
       removeFromCart(id)
       setIsAdded(false)
@@ -48,12 +57,12 @@ export const ProductCard : React.FunctionComponent<ProductCardProps> = ({ img, n
 
   return (
     <>
-      <div className='w-64 h-auto rounded-lg'>
+      <div className='w-64 h-auto rounded-lg' data-os="fade-up">
         <div className="bg-backProduct w-full h-[215px]">
           <img src={img} alt="product" className="mx-auto"/>
         </div>
         <div className='flex flex-col gap-2 w-full pt-3'>
-          <p className='text-md text-bold'>{ nombre }</p>
+          <p className='text-md text-bold w-full h-20'>{ nombre }</p>
           <p className="text-textProduct">{ id }</p>
           <p className="text-textProduct">{ proveedor }</p>
           <p className='text-md'>{ precio }</p> 

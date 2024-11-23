@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 export function Header() {
   const[isScrolled, setIsScrolled] = useState<boolean>(false)
   const[lastScrollY, setLastScrollY] = useState<number>(0);
-  const [isScrollingUp, setIsScrollingUp] = useState<boolean>(false);
+  const [isScrollingUp, setIsScrollingUp] = useState<boolean>(true);
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
