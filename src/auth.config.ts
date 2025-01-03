@@ -35,7 +35,7 @@ export const authOptions = {
   },
   adapter: FirestoreAdapter({
     credential: cert(serviceAccount as ServiceAccount)
-  }) as unknown as Adapter,
+  }) as Adapter,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
