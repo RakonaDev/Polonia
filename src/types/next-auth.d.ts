@@ -33,7 +33,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     uid ?: string;
     email?: string;
-    name?: string;
+    username?: string;
     token?: string; 
     role?: string;
   }
