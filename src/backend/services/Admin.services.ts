@@ -44,7 +44,7 @@ export async function signInAdmin( email: string, password: string ) {
 
     const isCorrectPassword = await bcrypt.compare(password, userLoged.password)
     if (!isCorrectPassword) {
-      throw new Error('Contraseña incorrecta')
+      return null
     }
     return userLoged
   }

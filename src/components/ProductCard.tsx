@@ -8,31 +8,45 @@ import { useCart } from "@/zustand/useCart"
 import { DetailOrder } from "@/backend/models/DetailOrder.modal"
 import Image, { StaticImageData } from "next/image"
 import { Inter } from "next/font/google"
+import { Product } from "@/backend/models/Product.modal"
 
+/*
 interface ProductCardProps {
   img: string | StaticImageData
-  nombre: string
+  name: string
   id: string
   precio: string
   proveedor: string
 }
+*/
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 })
 
-export const ProductCard : React.FunctionComponent<ProductCardProps> = ({ img, nombre, id, precio, proveedor }) => {
+type product = Pick<Product, 'id' | 'name' | 'price' | 'supplier'>
+
+export const ProductCard : React.FunctionComponent<Product> = ({ image , name, id, price, supplier }) => {
 
   const[quantity, setQuantity] = React.useState<number>(1)
   const[isAdded, setIsAdded] = React.useState<boolean>(false)
+  const[product] = React.useState<product>({
+    id,
+    name,
+    price,
+    supplier
+  })
 
   const { addToCart, removeFromCart, searchFromCart } = useCart();
 
   React.useEffect(() => {
-    if (searchFromCart(id)) {
+    const { found, quantityMain } = searchFromCart(id)
+    if (found) {
       setIsAdded(true)
+      setQuantity(quantityMain)
     }
+    console.log(product)
   }, [])
 
   const incrementQuantity = () : void => {
@@ -45,12 +59,13 @@ export const ProductCard : React.FunctionComponent<ProductCardProps> = ({ img, n
     setQuantity(quantity - 1)
   }
 
-  const handleCart = ({ id, nombre, proveedor, precio, imagen: img }: DetailOrder) : void => {
+  const handleCart = ({ id, product , quantity }: DetailOrder) : void => {
     if (isAdded) {
       removeFromCart(id)
       setIsAdded(false)
     } else {
-      addToCart({ id, nombre, proveedor, precio, imagen: img })
+      const subTotal = quantity * price
+      addToCart({ id, quantity, subTotal, product })
       setIsAdded(true)
     }
   }
@@ -59,13 +74,13 @@ export const ProductCard : React.FunctionComponent<ProductCardProps> = ({ img, n
     <>
       <div className={`w-64 h-auto rounded-lg ${inter.className}`} data-os="fade-up">
         <div className="bg-backProduct w-full h-[215px] flex justify-center items-center">
-          <Image src={img} alt="product" className="mx-auto"/>
+          <Image src={image[0].url} alt="product" className="mx-auto"/>
         </div>
         <div className='flex flex-col gap-2 w-full pt-3'>
-          <p className='text-md font-medium w-full h-20'>{ nombre }</p>
+          <p className='text-md font-medium w-full h-20'>{ name }</p>
           <p className="text-textProduct">{ id }</p>
-          <p className="text-textProduct">{ proveedor }</p>
-          <p className='text-md'>{ precio }</p> 
+          <p className="text-textProduct">{ supplier }</p>
+          <p className='text-md'>{"S/. "+ price + " Uni. - S/. 15 3 Uni. a más" }</p> 
         </div>
         <div className="flex w-full mt-4 gap-5">
           <div className={`flex-grow flex ${isAdded ? 'bg-gray-500' : 'bg-rojo'} rounded-xl text-white transition-colors duration-500`}>
@@ -92,7 +107,7 @@ export const ProductCard : React.FunctionComponent<ProductCardProps> = ({ img, n
           <button 
             type="button" 
             className="bg-rojo w-12 h-10 flex justify-center items-center rounded-md"
-            onClick={() => handleCart({ id, nombre, proveedor : id, precio, imagen: img })} 
+            onClick={() => handleCart({ id, product, quantity })} 
             title="Eliminar de la cesta"
           >
             <Image src={isAdded ? Cancel : IconProduct} alt="iconProduct" className="w-7 h-7" />

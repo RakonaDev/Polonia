@@ -1,15 +1,17 @@
+import { StaticImageData } from "next/image"
+
 interface Image {
-  url: string
+  url: StaticImageData
 }
 
 export interface Product {
-  uid: string
+  id: string
   name: string
   price: number
   image: Image[]
-  description: string
-  category: string
+  description?: string
+  category?: string
   supplier: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }

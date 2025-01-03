@@ -12,7 +12,7 @@ export default function HeaderUserAdmin() {
         <Image
           src='/header/notification.svg'
           alt='icon'
-          className='h-6 w-6'
+          className='h-auto w-auto'
           height={32}
           width={32}
         />
@@ -25,7 +25,7 @@ export default function HeaderUserAdmin() {
         <Image
           src='/header/settings.svg'
           alt='icon'
-          className='h-6 w-6'
+          className='h-auto w-auto'
           height={32}
           width={32}
         />

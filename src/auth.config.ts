@@ -22,10 +22,8 @@ export const authOptions = {
           console.log("Todo correcto")
           const user = await signInAdmin(userSafeCredentials.data.email, userSafeCredentials.data.password)
           console.log("USUARIO: ",user)
-          
           return user
         }
-        
         return null
       }
     })
@@ -42,7 +40,9 @@ export const authOptions = {
   }) as unknown as Adapter,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 1 * 60,
+    updateAge: 15
   },
   callbacks: {
     async jwt({ token, user }) {

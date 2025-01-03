@@ -8,9 +8,17 @@ export const publicRoutes: string[] = [
  * @type {string[]}
 */
 export const authRoutes: string[] = [
+  "/api/auth/session",
   "/admin/login",
   "/login",
   "/register"
+]
+
+export const adminRoutes: string[] = [
+  "/admin/dashboard",
+  "/admin/ventas",
+  "/admin/usuarios",
+  "/admin/productos",
 ]
 
 export const apiPrefix = "/api/auth"

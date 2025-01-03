@@ -25,15 +25,20 @@ export const useCart = create<Cart>()(
       },
       searchFromCart(id) {
         let found = false
+        let quantityMain = 0
         set((state) => {
           state.cart.map((item) => {
             if (item.id === id) {
               found = true
+              quantityMain = item.quantity
             }
           })
           return { cart: state.cart }
         })
-        return found
+        return {
+          found,
+          quantityMain
+        }
       },
     }),
     {

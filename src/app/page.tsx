@@ -5,7 +5,7 @@ import Item2 from '../assets/layouts/item2.png'
 import Item3 from '../assets/layouts/item3.png'
 import Item4 from '../assets/layouts/item4.png'
 import Image from "next/image";
-
+/* "S/. 20 Uni - S/ 15 3 Uni. a más" */
 export default function InicioPage() {
   return (
     <>
@@ -17,32 +17,38 @@ export default function InicioPage() {
           </header>
           <section className='w-full h-auto flex gap-4 mt-16 py-10 justify-between'>
             <ProductCard
-              img={Item1}
-              nombre="INTERRUPTOR LUZ DE EMERGENCIA CUADRADO 24V 7 PINES - CAMION/BUSES"
+              image={[
+                { url: Item1 },
+              ]}
+              name="INTERRUPTOR LUZ DE EMERGENCIA CUADRADO 24V 7 PINES - CAMION/BUSES"
               id="IM - 11209"
-              proveedor='MARILIA'
-              precio="S/. 20 Uni - S/ 15 3 Uni. a más"
+              supplier='MARILIA'
+              price={20} 
             />
             <ProductCard
-              img={Item2}
-              nombre="INTERRUPTOR DE 3 PINES 1 GOLPE (FIG DE FARO) CAMION/BUSES"
+              image={[
+                { url: Item2 },
+              ]}
+              name="INTERRUPTOR DE 3 PINES 1 GOLPE (FIG DE FARO) CAMION/BUSES"
               id="IM - 10621"
-              proveedor='MARILIA'
-              precio="S/. 20 Uni - S/ 15 3 Uni. a más"
+              supplier='MARILIA'
+              price={20}
             />
             <ProductCard
-              img={Item3}
-              nombre="CHAPA DE LUZ MARILLA DE 2 GOLPES 4 PINES UNIVERSAL "
+              image={[
+                { url: Item3 },
+              ]}
+              name="CHAPA DE LUZ MARILLA DE 2 GOLPES 4 PINES UNIVERSAL "
               id="IM - 11006"
-              proveedor='MARILIA'
-              precio="S/. 20 Uni - S/ 15 3 Uni. a más"
+              supplier='MARILIA'
+              price={20}
             />
             <ProductCard
-              img={Item4}
-              nombre="BOTON DE ARRANQUE MARILIA CUADRADI UNIVERSAL"
+              image={[{url: Item4}]}
+              name="BOTON DE ARRANQUE MARILIA CUADRADI UNIVERSAL"
               id="IM - 11031"
-              proveedor='MARILIA'
-              precio="S/. 20 Uni - S/ 15 3 Uni. a más"
+              supplier='MARILIA'
+              price={20}
             />
           </section>
         </div>

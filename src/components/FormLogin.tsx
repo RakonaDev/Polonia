@@ -28,7 +28,7 @@ export default function FormLogin() {
         redirect: false
       })
       
-      if (!responseAuth?.ok || responseAuth === undefined) {
+      if (responseAuth?.error) {
         setError(true)
         console.log("Error en la autenticación")
         throw new Error('Correo Electrónico o contraseña incorrectos')
@@ -63,7 +63,7 @@ export default function FormLogin() {
           }
           {
             error && (
-              <span>* Correo Electrónico o contraseña incorrectos</span>
+              <span>* Correo Electrónico incorrecto</span>
             )
           }
         </div>
@@ -96,6 +96,11 @@ export default function FormLogin() {
           {
             errors.password?.message && (
               <span>* {errors.password?.message}</span>
+            )
+          }
+          {
+            error && (
+              <span>* Contraseña incorrecta</span>
             )
           }
         </div>
