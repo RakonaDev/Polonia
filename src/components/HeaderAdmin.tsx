@@ -4,10 +4,11 @@ import PoloniaLogo from '@/assets/layouts/dashboard/logo.svg'
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const navItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: '/header/dashboard.svg', position: 'translate-y-0' },
-  { name: 'Pedidos', href: '/admin/ventas', icon: '/header/sales.svg', position: 'translate-y-16' },
+  { name: 'Ventas', href: '/admin/ventas', icon: '/header/sales.svg', position: 'translate-y-16' },
   { name: 'Comunidad', href: '/admin/usuarios', icon: '/header/user.svg', position: 'translate-y-[8rem]' },
   { name: 'Productos', href: '/admin/productos', icon: '/header/products.svg', position: 'translate-y-[12rem]' },
 ]
@@ -17,6 +18,7 @@ export default function HeaderAdmin() {
   const pathname = usePathname()
 
   useEffect(() => {
+    console.log(new Date().toLocaleDateString())
     if(pathname.includes('dashboard')) {
       setPosition(navItems[0].position)
     }
@@ -34,7 +36,7 @@ export default function HeaderAdmin() {
   return (
     <>
       <header className="w-72 fixed top-14 pe-5 z-50">
-        <div className="flex flex-col items-end w-fit mx-auto">
+        <div className="flex flex-col items-end w-fit mx-auto cursor-pointer" onClick={() => signOut()}>
           <Image src={PoloniaLogo} alt="logo" className="h-10" width={190} height={50} />
           <section className="px-2 py-1 bg-white text-black text-xs rounded-md -translate-y-1">
             ADMIN

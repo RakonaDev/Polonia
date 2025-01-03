@@ -1,8 +1,9 @@
+import HeaderUserAdmin from "@/components/HeaderUserAdmin";
 
 export default function HeaderUserAdminLayout() {
   return (
-    <div className="w-full py-10 bg-slate-500">
-
+    <div className="w-full py-2 flex justify-end">
+      <HeaderUserAdmin />
     </div>
   )
 }

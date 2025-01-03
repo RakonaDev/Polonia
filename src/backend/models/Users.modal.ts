@@ -1,8 +1,8 @@
-export interface User {
-  id: number
-  nombre: string
-  apellido: string
+export interface UserShop {
+  uid: string
+  name: string
   email: string
   password: string
-  avatar: string
+  createdAt: Date
+  updatedAt: Date
 }

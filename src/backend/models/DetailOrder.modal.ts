@@ -1,9 +1,10 @@
 import { StaticImageData } from "next/image"
+import { Product } from "./Product.modal"
 
 export interface DetailOrder {
   id: string
-  nombre: string
-  proveedor: string
-  precio: string
-  imagen: string | StaticImageData
+  product: Pick<Product, 'name' | 'uid' | 'price'>
+  quantity: number
+  subTotal: string
+  image: string | StaticImageData
 }

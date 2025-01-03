@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2017",
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./types",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

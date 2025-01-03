@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import HeaderLayout from "@/layout/HeaderLayout";
+import ClientSession from "@/nextauth/ClientSession";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,7 +28,9 @@ export default function RootLayout({
         className={`${inter.className} antialiased bg-white`}
       >
         <HeaderLayout />
-        {children}
+        <ClientSession>
+          {children}
+        </ClientSession>
       </body>
     </html>
   );
