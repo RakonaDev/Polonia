@@ -6,6 +6,8 @@ import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthConfig } from 'next-auth';
 
+import serviceAccount from "../polonia-test-firebase-adminsdk-s403e-e8e26815bf.json" assert { type: "json" };	
+
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -32,11 +34,7 @@ export const authOptions = {
     signIn: "/admin/login",
   },
   adapter: FirestoreAdapter({
-    credential: cert({
-      projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
-      clientEmail: process.env.AUTH_FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-    })
+    credential: cert(serviceAccount as ServiceAccount)
   }) as unknown as Adapter,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
