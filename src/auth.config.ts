@@ -8,6 +8,12 @@ import { NextAuthConfig } from 'next-auth';
 
 import serviceAccount from "../polonia-test-firebase-adminsdk-s403e-e8e26815bf.json" assert { type: "json" };	
 
+/*
+  adapter: FirestoreAdapter({
+    credential: cert(serviceAccount as ServiceAccount)
+  }) as Adapter,
+*/
+
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -36,8 +42,8 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 1 * 60,
-    updateAge: 15
+    maxAge: 60 * 60,
+    updateAge: 15 * 60
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -49,7 +55,7 @@ export const authOptions = {
       }
       return token
     },
-    async session({ session, token}) {
+    async session({ session, token, user}) {
       
       session.user.uid = token.uid
       session.user.username = token.username

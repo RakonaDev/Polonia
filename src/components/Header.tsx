@@ -3,7 +3,7 @@ import { FacebookIcon } from "@/icons/FacebookIcon";
 import { InstagramIcon } from "@/icons/InstagramIcon";
 import { TiktokIcon } from "@/icons/TiktokIcon";
 import { YoutubeIcon } from "@/icons/YoutubeIcon";
-import { Cart } from "./Cart";
+import Cart from "./Cart";
 
 import Logo from '../assets/components/logo.svg'
 import Search from '../assets/components/search.svg'

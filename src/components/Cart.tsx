@@ -2,7 +2,8 @@ import { useCart } from '@/zustand/useCart'
 import cartIcon from '../assets/components/cart.svg'
 import Image from 'next/image'
 
-export function Cart () {
+export default function Cart () {
+
 
   const { cart } = useCart()
 
