@@ -33,9 +33,6 @@ export const authOptions = {
   pages: {
     signIn: "/admin/login",
   },
-  adapter: FirestoreAdapter({
-    credential: cert(serviceAccount as ServiceAccount)
-  }) as Adapter,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
