@@ -10,7 +10,6 @@ export default function DashboardPage() {
       <div>
         { JSON.stringify(user.user?.publicMetadata.role) }
       </div>
-    
     </main>
   )
 }
