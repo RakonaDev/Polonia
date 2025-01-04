@@ -1,5 +1,4 @@
 'use client'
-import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -8,6 +7,7 @@ import EyesOpen from '@/assets/components/login/eyes-open.svg'
 import EyesClosed from '@/assets/components/login/eyes-closed.svg'
 import UserIcon from '@/assets/components/login/user.svg'
 import { useRouter } from "next/navigation";
+import { useSignIn } from "@clerk/nextjs";
 
 type FormValues = {
   email: string,
@@ -16,28 +16,33 @@ type FormValues = {
 
 export default function FormLogin() {
   const router = useRouter()
+  const { signIn, setActive } = useSignIn()
 
   const[showPassword, setShowPassword] = useState(false)
   const[error, setError] = useState<boolean>(false)
   const { register, handleSubmit, formState: {errors} } = useForm<FormValues>();
   const onSubmit = handleSubmit(async (data: FieldValues) => {
+    
     try{
-      const responseAuth = await signIn('credentials', {
-        email: data.email,
+      const result = await signIn?.create({
+        identifier: data.email,
         password: data.password,
-        redirect: false
       })
-      
-      if (responseAuth?.error) {
-        setError(true)
-        console.log("Error en la autenticación")
-        throw new Error('Correo Electrónico o contraseña incorrectos')
+      if (result?.status == 'complete' && result.createdSessionId) {
+        if(setActive) {
+          setActive({
+            session: result.createdSessionId,
+          })
+        }
+        router.push('/admin/dashboard')
       }
-      router.push('/admin/dashboard')
+      
     }
     catch(error) {
-      console.log(error)
+      setError(true)
+      console.log('Credenciales incorrectas')
     }
+      
   })
 
   return (

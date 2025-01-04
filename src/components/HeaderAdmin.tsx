@@ -4,7 +4,8 @@ import PoloniaLogo from '@/assets/layouts/dashboard/logo.svg'
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { useClerk } from "@clerk/clerk-react";
+
 
 const navItems = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: '/header/dashboard.svg', position: 'translate-y-0' },
@@ -16,7 +17,8 @@ const navItems = [
 export default function HeaderAdmin() {
   const[position, setPosition] = useState<string>("translate-y-0")
   const pathname = usePathname()
-
+  const { signOut } = useClerk()
+  
   useEffect(() => {
     console.log(new Date().toLocaleDateString())
     if(pathname.includes('dashboard')) {
@@ -36,7 +38,9 @@ export default function HeaderAdmin() {
   return (
     <>
       <header className="w-72 fixed top-14 pe-5 z-50">
-        <div className="flex flex-col items-end w-fit mx-auto cursor-pointer" onClick={() => signOut()}>
+        <div className="flex flex-col items-end w-fit mx-auto cursor-pointer" onClick={() => signOut({
+          redirectUrl: '/admin/login'
+        })}>
           <Image src={PoloniaLogo} alt="logo" className="h-10" width={190} height={50} />
           <section className="px-2 py-1 bg-white text-black text-xs rounded-md -translate-y-1">
             ADMIN

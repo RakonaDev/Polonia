@@ -1,54 +1,42 @@
+import { clerkMiddleware, ClerkMiddlewareAuth, createRouteMatcher } from "@clerk/nextjs/server"
+import { NextRequest, NextResponse } from "next/server"
 
-import { getToken } from "next-auth/jwt";
-import { NextRequest, NextResponse } from "next/server";
-import {
-  ADMIN_LOGIN_REDIRECT,
-  authRoutes,
-  publicRoutes,
-  apiPrefix,
-  adminRoutes,
-} from "@/routes"
+const isPublicRoute = createRouteMatcher(['/admin/login(.*)', '/admin/register(.*)', '/'])
+const isAdminRoute = createRouteMatcher(['/admin/dashboard', '/admin/ventas', '/admin/usuarios', '/admin/productos'])
+const isAdminLogin = createRouteMatcher(['/admin/login'])
 
-
-export async function middleware(req: NextRequest) {
-  const { nextUrl } = req;
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isAdminRoute = adminRoutes.includes(nextUrl.pathname);
-  console.log("NextUrl: ", nextUrl.pathname)
-  console.log("Section Admin?: ", isAdminRoute)
-  console.log("Is Login Admin: ", isAuthRoute)
-  console.log("TOKEN: ", token)
-  console.log("Tiempo de Ejecución: ", new Date().toLocaleTimeString())
-
-  if (isApiAuthRoute) {
-    return null
-  }
+export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, request) => {
+  const session = await auth()
   
-  if (isAuthRoute) {
-    console.log("Estoy en auth")
-    if (token) {
-      return NextResponse.redirect(new URL(ADMIN_LOGIN_REDIRECT, nextUrl))
+  if (isAdminLogin(request)) {
+    if( session.sessionClaims?.metadata?.role === 'admin' ) {
+      const url = new URL('/admin/dashboard', request.nextUrl)
+      return NextResponse.redirect(url)
+    } 
+  }
+
+  if (isAdminRoute(request)) {
+    if( (await auth()).sessionClaims?.metadata?.role === 'admin' ) {
+      console.log("Esta permitido")
+      return NextResponse.next()
     }
-    return null
+    else {
+      const url = new URL('/admin/login', request.nextUrl)
+      return NextResponse.redirect(url)
+    }
   }
   /*
-  if ( isAdminRoute && !token) {
-    console.log("No se encontro el token")
-    return NextResponse.redirect(new URL("/admin/login", nextUrl))
-  }*/
-
-  if (!token && !isPublicRoute) {
-    return NextResponse.redirect(new URL("/admin/login", nextUrl))
+  if (!isPublicRoute(request)) {
+    await auth.protect()
   }
-
-  
+  */
+  console.log(request.nextUrl.pathname)
   return null
-}
-
+})
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+  matcher: [
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
+  ],
+}

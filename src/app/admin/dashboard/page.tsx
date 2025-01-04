@@ -1,12 +1,15 @@
 'use client'
-import { useSession } from "next-auth/react"
+
+import { useUser } from "@clerk/nextjs"
 
 export default function DashboardPage() {
-  const { data: session } = useSession()
+  const user = useUser()
   return (
-    <main className="mt-6">
+    <main className="mt-6 h-auto">
       <h1 className="text-4xl font-bold">Dashboard</h1>
-      { JSON.stringify(session) }
+      <div>
+        { JSON.stringify(user.user?.publicMetadata.role) }
+      </div>
     
     </main>
   )

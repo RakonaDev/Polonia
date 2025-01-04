@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import HeaderLayout from "@/layout/HeaderLayout";
-import ClientSession from "@/nextauth/ClientSession";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,15 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} antialiased bg-white`}
-      >
-        <HeaderLayout />
-        <ClientSession>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${inter.className} antialiased bg-white overflow-x-hidden`}
+        >
+          <HeaderLayout />
           {children}
-        </ClientSession>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
