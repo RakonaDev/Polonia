@@ -2,9 +2,6 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { Auth, getAuth } from "firebase/auth";
-import { cert, ServiceAccount } from "firebase-admin/app";
-
-const serviceAccount: ServiceAccount = process.env.GOOGLE_APPLICATION_CREDENTIALS as unknown as ServiceAccount
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsSjJykSje1_lUSSd_tk6KJCqwHggfuY0",
@@ -13,7 +10,6 @@ const firebaseConfig = {
   storageBucket: "polonia-test.firebasestorage.app",
   messagingSenderId: "462945753090",
   appId: "1:462945753090:web:90cf86056819e3b661af1b",
-  credential: cert(serviceAccount)
 };
 
 
