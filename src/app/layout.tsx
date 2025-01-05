@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import HeaderLayout from "@/layout/HeaderLayout";
 import { ClerkProvider } from "@clerk/nextjs";
+import { StrictMode } from "react";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,18 +23,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
 
   return (
-    <ClerkProvider publishableKey="">
-      <html lang="en">
-        <body
-          className={`${inter.className} antialiased bg-white overflow-x-hidden`}
-        >
-          <HeaderLayout />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <StrictMode>
+      <ClerkProvider publishableKey="">
+        <html lang="en">
+          <body
+            className={`${inter.className} antialiased bg-white overflow-x-hidden`}
+          >
+            <HeaderLayout />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </StrictMode>
   );
 }

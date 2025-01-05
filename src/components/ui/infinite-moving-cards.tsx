@@ -8,7 +8,7 @@ export const InfiniteMovingCards = ({
   items,
   direction = "left",
   speed = "fast",
-  pauseOnHover = true,
+  pauseOnHover = false,
   className,
 }: {
   items: {
@@ -25,7 +25,7 @@ export const InfiniteMovingCards = ({
   useEffect(() => {
     addAnimation();
   }, []);
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState(true);
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
@@ -93,15 +93,14 @@ export const InfiniteMovingCards = ({
             }}
             key={idx}
           >
-            <blockquote>
-              <Image 
+            <Image 
                 src={item.url} 
-                alt="quote"
-                className="h-auto w-auto"
-                width={150}
+                alt="sosio-item"
+                className="h-auto w-auto object-cover hover:scale-110 transition-all duration-500"
+                width={170}
                 height={100}
+                priority
               />
-            </blockquote>
           </li>
         ))}
       </ul>

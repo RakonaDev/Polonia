@@ -3,6 +3,9 @@ import React from 'react'
 
 const socios = [
   {
+    url: '/socios/image-13.png'
+  },
+  {
     url: '/socios/image-2.png'
   },
   {
