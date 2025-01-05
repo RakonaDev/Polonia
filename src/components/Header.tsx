@@ -12,6 +12,7 @@ import Whats from '../assets/components/whats.svg'
 import Download from '../assets/components/download.svg'
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
   const[isScrolled, setIsScrolled] = useState<boolean>(false)
@@ -93,12 +94,12 @@ export function Header() {
         <div className={`w-full bg-rojo-claro relative ${isScrollingUp ? 'translate-y-0' : '-translate-y-60' } h-auto group-hover:translate-y-0 transition-all duration-500`}>
           <div className="max-w-[90rem] w-full mx-auto flex gap-4 py-9 p-5 justify-between items-end">
             <nav className="gap-9 flex h-10 items-end">	
-              <a href="#" className="text-white">
+              <Link href="/" className="text-white">
                 Inicio
-              </a>
-              <a href="#" className="text-white">
+              </Link>
+              <Link href="/nosotros" className="text-white">
                 Nuestra Empresa
-              </a>
+              </Link>
               <a href="#" className="text-white">
                 Representastes
               </a>
