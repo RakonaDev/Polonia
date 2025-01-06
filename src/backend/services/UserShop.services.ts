@@ -1,16 +1,37 @@
-import { signInWithEmailAndPassword, UserCredential, createUserWithEmailAndPassword, AuthError, signOut } from 'firebase/auth'
+import { signInWithEmailAndPassword, UserCredential, signOut } from 'firebase/auth'
 import { authFireBase } from '../firebase'
+import { addDoc, FirestoreError } from 'firebase/firestore'
+import { userCollection } from '@/backend/collections/user.collection'
+import { UserShop } from '../models/Users.modal'
+import { createHash } from 'crypto'
 
-export async function signUp (email: string, password: string) {
+export async function signUpUser (email: string, password: string, username: string) {
 
-  return createUserWithEmailAndPassword(authFireBase, email, password)
-    .then((userCredential: UserCredential) => {
-      return userCredential
-    })
-    .catch((error: AuthError) => {
-      console.log(error.message)
+  try {
+    const createdAt = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+    const updatedAt = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+    password = createHash('sha256').update(password).digest('hex')
+
+    const user:UserShop = {
+      email,
+      password,
+      username,
+      createdAt,
+      updatedAt
+    }
+    const docRef = await addDoc(userCollection, user)
+    if (docRef) {
+      return docRef
+    }
+    else {
       throw new Error()
-    })
+    }
+  }
+  catch (error) {
+    if (error instanceof FirestoreError) {
+      console.log(error.message)
+    }
+  } 
 }
 
 export async function signIn (email: string, password: string) {

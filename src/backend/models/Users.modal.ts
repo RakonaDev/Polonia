@@ -1,8 +1,8 @@
 export interface UserShop {
-  uid: string
-  name: string
+  id?: string
+  username: string
   email: string
   password: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

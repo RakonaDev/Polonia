@@ -48,7 +48,7 @@ export default async function NosotrosPage() {
           <InfiniteMovingCards
             items={socios}
             direction="right"
-            speed="fast"
+            speed="normal"
           />
         </div>
       </div>

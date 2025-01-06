@@ -1,55 +1,70 @@
 'use client'
-import Image from "next/image";
-import { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-
+import Image from 'next/image'
+import React, { useId, useState } from 'react'
 import EyesOpen from '@/assets/components/login/eyes-open.svg'
 import EyesClosed from '@/assets/components/login/eyes-closed.svg'
 import UserIcon from '@/assets/components/login/user.svg'
-import { useRouter } from "next/navigation";
-import { useSignIn } from "@clerk/nextjs";
+import { FieldValues, useForm } from 'react-hook-form'
+import { useSignIn } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
+
+const initial = { opacity: 0, x: -30 }
+const animate = { opacity: 1, x: 0 }
+const exit = { opacity: 0, x: -30 }
 
 type FormValues = {
   email: string,
   password: string
 }
 
-export default function FormLogin() {
+export default function FormUserLogin() {
   const router = useRouter()
   const { signIn, setActive } = useSignIn()
+  const id = useId()
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState<boolean>(false)
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+  const [error, setError] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState(false)
   const onSubmit = handleSubmit(async (data: FieldValues) => {
-
-    try {
-      const result = await signIn?.create({
-        identifier: data.email,
-        password: data.password,
-      })
-      if (result?.status == 'complete' && result.createdSessionId) {
-        if (setActive) {
-          setActive({
-            session: result.createdSessionId,
-          })
+  
+      try {
+        const result = await signIn?.create({
+          identifier: data.email,
+          password: data.password,
+        })
+        if (result?.status == 'complete' && result.createdSessionId) {
+          if (setActive) {
+            setActive({
+              session: result.createdSessionId,
+            })
+          }
+          router.push('/')
         }
-        router.push('/admin/dashboard')
+  
       }
-
-    }
-    catch (error) {
-      setError(true)
-      console.log('Credenciales incorrectas')
-    }
-
-  })
+      catch (error) {
+        setError(true)
+        console.log('Credenciales incorrectas')
+      }
+  
+    })
 
   return (
     <>
-      <form onSubmit={onSubmit} className='flex flex-col w-full'>
-        <div className='flex flex-col mb-7'>
+      <motion.form
+        key={id}
+        layoutId='login'
+        onSubmit={onSubmit} className='flex flex-col w-full'>
+        <motion.div 
+          initial={initial}
+          animate={animate}
+          exit={exit}
+          transition={{ duration: 0.4 }}
+          className='flex flex-col mb-7'
+        >
           <input
+            
             type="email"
             id="email"
             className='w-full px-5 py-3 border-2 border-gray-400 rounded-md text-black font-bold focus:outline-none'
@@ -71,8 +86,14 @@ export default function FormLogin() {
               <span className="text-white">* Correo Electrónico incorrecto</span>
             )
           }
-        </div>
-        <div className='flex flex-col relative'>
+        </motion.div>
+        <motion.div 
+          initial={initial}
+          animate={animate}
+          exit={exit}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className='flex flex-col relative'
+        >
           <input
             type={showPassword ? "text" : "password"}
             id="password"
@@ -99,7 +120,7 @@ export default function FormLogin() {
             />
           </label>
 
-        </div>
+        </motion.div>
         <div className="mb-7 text-white">
           {
             errors.password?.message && (
@@ -112,7 +133,12 @@ export default function FormLogin() {
             )
           }
         </div>
-        <button
+        <motion.button
+          whileTap="tapped"
+          initial={initial}
+          animate={animate}
+          exit={exit}
+          transition={{ duration: 0.1 }}
           className="text-base w-fit px-6 py-2 border-2 mx-auto bg-white rounded-md text-rojo font-medium cursor-pointer flex gap-3 items-center hover:bg-gray-300 border-none transition-all duration-500"
           type="submit"
         >
@@ -123,8 +149,8 @@ export default function FormLogin() {
             height={25}
           />
           Iniciar Sesión
-        </button>
-      </form>
+        </motion.button>
+      </motion.form>
     </>
   )
 }

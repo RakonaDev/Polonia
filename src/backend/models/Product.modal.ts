@@ -12,6 +12,7 @@ export interface Product {
   description?: string
   category?: string
   supplier: string
+  stock?: number
   createdAt?: Date
   updatedAt?: Date
 }
