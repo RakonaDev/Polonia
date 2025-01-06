@@ -13,8 +13,10 @@ import Download from '../assets/components/download.svg'
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useClerk } from "@clerk/nextjs";
 
 export function Header() {
+  const { signOut, openSignIn } = useClerk()
   const[isScrolled, setIsScrolled] = useState<boolean>(false)
   const[lastScrollY, setLastScrollY] = useState<number>(0);
   const [isScrollingUp, setIsScrollingUp] = useState<boolean>(true);
@@ -69,7 +71,7 @@ export function Header() {
       <header className={`w-full h-auto group  fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
         <div className="bg-rojo relative z-30">
           <div className="max-w-[90rem] w-full mx-auto p-4 flex gap-6">
-            <Image src={Logo} alt="" className="h-10 my-auto" width={190} height={50} />
+            <Image src={Logo} alt="" className="h-10 my-auto" width={190} height={50} onClick={() => signOut({ redirectUrl: '/' })} />
             <div className="flex-grow my-auto flex focus-within:outline-2 focus-within:outline-black">
               <input
                 type="search"
