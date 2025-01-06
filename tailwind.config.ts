@@ -48,6 +48,7 @@ export default {
         'LayoutAdmin': '#242424',
         'border-option': '#F0F1F7',
         'border': "#4a5568",
+        'gris': '#616161'
       },
     },
   },

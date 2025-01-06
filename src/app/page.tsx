@@ -19,7 +19,7 @@ export default function InicioPage() {
       
       <main className='w-full min-h-screen h-auto'>
         <div className='max-w-[90rem] w-full mx-auto p-2'>
-          <header className='mt-28'>
+          <header className='mt-12'>
             <Image src={BannerInicio} alt="banner" className='w-full h-auto' width={1280} height={341} />
           </header>
           <section className='w-full h-auto flex gap-4 mt-16 py-10 justify-between'>

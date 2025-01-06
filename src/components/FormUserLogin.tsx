@@ -5,9 +5,11 @@ import EyesOpen from '@/assets/components/login/eyes-open.svg'
 import EyesClosed from '@/assets/components/login/eyes-closed.svg'
 import UserIcon from '@/assets/components/login/user.svg'
 import { FieldValues, useForm } from 'react-hook-form'
-import { useSignIn } from '@clerk/nextjs'
+import { GoogleOneTap, SignIn, useSignIn, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import axios from 'axios'
+import GoogleIcon from '@/assets/icons/google.svg'
 
 const initial = { opacity: 0, x: -30 }
 const animate = { opacity: 1, x: 0 }
@@ -22,33 +24,34 @@ export default function FormUserLogin() {
   const router = useRouter()
   const { signIn, setActive } = useSignIn()
   const id = useId()
+  const { user } = useUser()
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const [error, setError] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState(false)
+
   const onSubmit = handleSubmit(async (data: FieldValues) => {
-  
-      try {
-        const result = await signIn?.create({
-          identifier: data.email,
-          password: data.password,
-        })
-        if (result?.status == 'complete' && result.createdSessionId) {
-          if (setActive) {
-            setActive({
-              session: result.createdSessionId,
-            })
-          }
-          router.push('/')
+    try {
+      const result = await signIn?.create({
+        identifier: data.email,
+        password: data.password,
+      })
+      if (result?.status == 'complete' && result.createdSessionId) {
+        if (setActive) {
+          setActive({
+            session: result.createdSessionId,
+          })
         }
-  
+        router.push('/')
       }
-      catch (error) {
-        setError(true)
-        console.log('Credenciales incorrectas')
-      }
-  
-    })
+
+    }
+    catch (error) {
+      setError(true)
+      console.log('Credenciales incorrectas')
+    }
+
+  })
 
   return (
     <>
@@ -56,7 +59,7 @@ export default function FormUserLogin() {
         key={id}
         layoutId='login'
         onSubmit={onSubmit} className='flex flex-col w-full'>
-        <motion.div 
+        <motion.div
           initial={initial}
           animate={animate}
           exit={exit}
@@ -64,7 +67,7 @@ export default function FormUserLogin() {
           className='flex flex-col mb-7'
         >
           <input
-            
+
             type="email"
             id="email"
             className='w-full px-5 py-3 border-2 border-gray-400 rounded-md text-black font-bold focus:outline-none'
@@ -87,7 +90,7 @@ export default function FormUserLogin() {
             )
           }
         </motion.div>
-        <motion.div 
+        <motion.div
           initial={initial}
           animate={animate}
           exit={exit}
@@ -154,3 +157,53 @@ export default function FormUserLogin() {
     </>
   )
 }
+
+/*
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signIn?.create({
+        strategy: 'oauth_google',
+        redirectUrl: 'https://verified-filly-63.clerk.accounts.dev/v1/oauth_callback',
+        oidcPrompt: 'login',
+        actionCompleteRedirectUrl: '/',        
+      })
+      
+      if( result?.firstFactorVerification.externalVerificationRedirectURL ) {
+        const url = result.firstFactorVerification.externalVerificationRedirectURL
+        const stringUrl = url.toString()
+        const urlVerification = stringUrl.replace(/\\u0026/g, "&")
+        window.open(urlVerification+'&service=lso&o2v=1&ddm=1&flowName=GeneralOAuthFlow')
+      }
+
+      if (result?.id) {
+        
+        axios.post('http://localhost:3000/api/public/user/setrole', JSON.stringify({ userId: result.id, result }), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    }
+    catch (error) {
+      console.log('error', error)
+    }
+  }
+  <motion.div
+        className='mb-5 ring-4 ring-slate-950 bg-white p-2 w-fit rounded-2xl mx-auto cursor-pointer transition-all duration-700 hover:shadow-black hover:shadow-lg'
+        initial={initial}
+        animate={animate}
+        exit={exit}
+        transition={{ duration: 0.1 }}
+        onClick={signInWithGoogle}
+      >
+        <Image 
+          src={GoogleIcon}
+          alt="google"
+          width={40}
+          height={40}
+        />
+      
+      </motion.div>
+*/

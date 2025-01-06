@@ -65,6 +65,7 @@ export function Header() {
           </nav>
         </div>
       </header>
+      <div className="h-24 w-full bg-white"></div>
       <header className={`w-full h-auto group  fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
         <div className="bg-rojo relative z-30">
           <div className="max-w-[90rem] w-full mx-auto p-4 flex gap-6">

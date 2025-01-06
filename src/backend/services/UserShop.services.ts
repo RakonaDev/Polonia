@@ -4,18 +4,21 @@ import { addDoc, FirestoreError } from 'firebase/firestore'
 import { userCollection } from '@/backend/collections/user.collection'
 import { UserShop } from '../models/Users.modal'
 import { createHash } from 'crypto'
+import { EmailAddress } from '@clerk/nextjs/server'
 
-export async function signUpUser (email: string, password: string, username: string) {
+export async function signUpUser (email: string | EmailAddress | null, password: string, username: string | null) {
 
   try {
     const createdAt = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
     const updatedAt = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+    const role = 'user'
     password = createHash('sha256').update(password).digest('hex')
 
     const user:UserShop = {
       email,
       password,
       username,
+      role,
       createdAt,
       updatedAt
     }

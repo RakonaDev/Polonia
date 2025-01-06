@@ -13,8 +13,6 @@ export default function LoginPage() {
 
   const handlerForms = () => setIsLogin(!isLogin)
 
-
-
   return (
     <>
       <div>
