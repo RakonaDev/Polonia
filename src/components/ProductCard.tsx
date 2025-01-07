@@ -35,7 +35,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     id,
     name,
     price,
-    supplier
+    supplier,
   })
 
   const { addToCart, removeFromCart, searchFromCart } = useCart();
@@ -59,7 +59,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     setQuantity(quantity - 1)
   }
 
-  const handleCart = ({ id, product , quantity }: DetailOrder) : void => {
+  const handleCart = ({ id, product , quantity, subTotal }: DetailOrder) : void => {
     if (isAdded) {
       removeFromCart(id)
       setIsAdded(false)
@@ -107,7 +107,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
           <button 
             type="button" 
             className="bg-rojo w-12 h-10 flex justify-center items-center rounded-md"
-            onClick={() => handleCart({ id, product, quantity })} 
+            onClick={() => handleCart({ id, product, quantity, subTotal: quantity * price })} 
             title="Eliminar de la cesta"
           >
             <Image src={isAdded ? Cancel : IconProduct} alt="iconProduct" className="w-7 h-7" />
