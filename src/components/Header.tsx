@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useClerk } from "@clerk/nextjs";
+import { SheetCart } from "./sheet-cart";
 
 export function Header() {
   const { signOut, openSignIn } = useClerk()
@@ -87,7 +88,9 @@ export function Header() {
               </label>
             </div>
             <Image src={User} alt="" className="h-6 my-auto" />
-            <Cart />
+            {/*"<Cart />"*/}
+            <SheetCart />
+
             <a href="#" className="flex items-center gap-2 text-white bg-verde px-6 py-2 my-auto rounded-lg h-fit">
               <Image src={Whats} alt="" className="h-5 my-auto" height={20} width={25} />
               <span className="text-white text-md">Contáctanos</span>

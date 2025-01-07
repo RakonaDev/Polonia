@@ -16,7 +16,7 @@ export default function LoginPage() {
   return (
     <>
       <div>
-        <main className="w-full h-screen relative">
+        <main className="w-full h-screen relative overflow-hidden">
           <Image
             src={backgroundLogin}
             alt="backgroundLogin"

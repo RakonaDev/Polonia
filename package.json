@@ -13,6 +13,7 @@
     "@auth/firebase-adapter": "^2.7.4",
     "@clerk/nextjs": "^6.9.6",
     "@opentelemetry/api": "^1.9.0",
+    "@radix-ui/react-dialog": "^1.1.4",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",

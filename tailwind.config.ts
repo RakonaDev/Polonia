@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 import colors from "tailwindcss/colors";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
+import { transform } from "next/dist/build/swc/generated-native";
 
 /** @type {import('tailwindcss').Config} */
 
@@ -20,6 +21,8 @@ export default {
       animation: {
         scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
         aurora: "aurora 60s linear infinite",
+        'sheet-slide-in': 'sheet-slide-in 0.3s ease-out',
+        'sheet-slide-out': 'sheet-slide-out 0.3s ease-in',
       },
       keyframes: {
         scroll: {
@@ -34,6 +37,14 @@ export default {
           to: {
             backgroundPosition: "350% 50%, 350% 50%",
           },
+        },
+        'sheet-slide-in': {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'sheet-slide-out': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
         },
       },
       colors: {
