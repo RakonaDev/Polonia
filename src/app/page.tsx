@@ -1,3 +1,4 @@
+'use client'
 import { ProductCard } from "@/components/ProductCard";
 import BannerInicio from '../assets/layouts/bannerInicio.jpg'
 import Item1 from '../assets/layouts/item1.png'
@@ -5,8 +6,10 @@ import Item2 from '../assets/layouts/item2.png'
 import Item3 from '../assets/layouts/item3.png'
 import Item4 from '../assets/layouts/item4.png'
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
 /* "S/. 20 Uni - S/ 15 3 Uni. a más" */
 export default function InicioPage() {
+  const { user } = useUser()
   /*
   console.log({
     projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
@@ -14,6 +17,8 @@ export default function InicioPage() {
     privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
   })
   */
+  console.log(user)
+
   return (
     <>
       
