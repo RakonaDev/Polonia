@@ -22,6 +22,7 @@ export const SignInOAuthButtons = () => {
         redirectUrlComplete: '/',
       })
       
+      
     }
     const signUpwithGoogle = () => {
       signUp?.authenticateWithRedirect({

@@ -4,7 +4,7 @@ import React, { useId } from 'react'
 import backgroundLogin from "@/assets/components/background.jpg"
 import FormUserLogin from '@/components/FormUserLogin'
 import FormUserRegister from '@/components/FormUserRegister'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { SignInOAuthButtons } from '@/components/SignInOAuthButtons'
 
 
