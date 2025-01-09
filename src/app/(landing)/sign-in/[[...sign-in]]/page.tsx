@@ -5,10 +5,12 @@ import backgroundLogin from "@/assets/components/background.jpg"
 import FormUserLogin from '@/components/FormUserLogin'
 import FormUserRegister from '@/components/FormUserRegister'
 import { AnimatePresence, motion } from 'framer-motion'
+import { SignInOAuthButtons } from '@/components/SignInOAuthButtons'
+
 
 export default function LoginPage() {
 
-  const [isLogin, setIsLogin] = React.useState(true)
+  const [isLogin, setIsLogin] = React.useState(true)  
   
 
   const handlerForms = () => setIsLogin(!isLogin)
@@ -43,9 +45,9 @@ export default function LoginPage() {
                   SIGN UP
                 </button>
               </div>
-              <div className={` ${isLogin ? 'min-h-[201px]' : 'h-min-[361px]'} transition-all duration-700 w-full`}>
+              <div className={` ${isLogin ? 'min-h-[201px]' : 'h-min-[361px]'} transition-all duration-700 w-full flex flex-col items-center`}>
                 <AnimatePresence>
-
+                  { isLogin && <SignInOAuthButtons key={"wewewewew"} /> }
                   {isLogin ? <FormUserLogin /> : <FormUserRegister />}
 
                 </AnimatePresence>

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 const isAdminRoute = createRouteMatcher(['/admin/dashboard', '/admin/ventas', '/admin/usuarios', '/admin/productos'])
 const isAdminLogin = createRouteMatcher(['/admin/login'])
-const isUserLogin = createRouteMatcher(['/login'])
+const isUserLogin = createRouteMatcher(['/sign-in'])
 
 export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, request) => {
   const session = await auth()
@@ -14,10 +14,10 @@ export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, request) => {
       return NextResponse.redirect(url)
     } 
   }
-
+  
   if (isUserLogin(request)) {
-    if( session.sessionClaims?.metadata?.role === 'user' ) {
-      const url = new URL('/login', request.nextUrl)
+    if( session.userId ) {
+      const url = new URL('/', request.nextUrl)
       return NextResponse.redirect(url)
     } 
   }
