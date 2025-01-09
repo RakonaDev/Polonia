@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import HeaderLayout from "@/layout/HeaderLayout";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
 import { StrictMode } from "react";
 
 const inter = Inter({
@@ -31,6 +31,7 @@ export default function RootLayout({
           <body
             className={`${inter.className} antialiased bg-white overflow-x-hidden`}
           >
+            <GoogleOneTap />
             <HeaderLayout />
             {children}
           </body>
