@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image"
 
 interface Image {
-  url: StaticImageData
+  url: string
 }
 
 export interface Product {
@@ -15,4 +15,9 @@ export interface Product {
   stock?: number
   createdAt?: Date
   updatedAt?: Date
+}
+
+export interface StatusProduct {
+  isAdded: boolean
+  setIsAdded: (isAdded: boolean) => void
 }

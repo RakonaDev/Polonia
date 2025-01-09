@@ -15,9 +15,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useClerk } from "@clerk/nextjs";
 import { SheetCart } from "./sheet-cart";
+import { usePathname } from "next/navigation";
 
 export function Header() {
-  const { signOut, openSignIn } = useClerk()
+  const { signOut } = useClerk()
+  const pathname = usePathname()
   const[isScrolled, setIsScrolled] = useState<boolean>(false)
   const[lastScrollY, setLastScrollY] = useState<number>(0);
   const [isScrollingUp, setIsScrollingUp] = useState<boolean>(true);
@@ -38,6 +40,11 @@ export function Header() {
 
 
   useEffect((): void => {
+    if (window.scrollY > 10) {
+      setIsScrolled(true)
+    } else {
+      setIsScrolled(false)
+    }
     window.addEventListener('scroll', () => {
       if (window.scrollY > 10) {
         setIsScrolled(true)
@@ -68,8 +75,8 @@ export function Header() {
           </nav>
         </div>
       </header>
-      <div className="h-24 w-full bg-white"></div>
-      <header className={`w-full h-auto group  fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
+      <div className={`h-24 w-full ${pathname === '/contacto' ? 'bg-contacto' : 'bg-white'}`}></div>
+      <header className={`w-full h-auto group fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
         <div className="bg-rojo relative z-30">
           <div className="max-w-[90rem] w-full mx-auto p-4 flex gap-6">
             <Image src={Logo} alt="" className="h-10 my-auto" width={190} height={50} onClick={() => signOut({ redirectUrl: '/' })} />
@@ -106,12 +113,9 @@ export function Header() {
               <Link href="/nosotros" className="text-white">
                 Nuestra Empresa
               </Link>
-              <a href="#" className="text-white">
-                Representastes
-              </a>
-              <a href="#" className="text-white">
+              <Link href="/contacto" className="text-white">
                 Contacto
-              </a>
+              </Link>
             </nav>
             <a href="#" className="bg-black text-white rounded-xl py-2 px-6 h-fit flex gap-3">
               <Image src={Download} alt="download" className="h-5 my-auto" height={20} width={25}/> <span>Catálogo</span>
@@ -119,7 +123,7 @@ export function Header() {
           </div>
         </div>
       </header>
-      <div className='w-full h-24'></div>
+      <div className={`w-full h-24 ${pathname === '/contacto' ? 'bg-contacto' : 'bg-white'}`}></div>
     </>
   )
 }

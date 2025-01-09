@@ -28,6 +28,7 @@ const inter = Inter({
 type product = Pick<Product, 'id' | 'name' | 'price' | 'supplier'>
 
 export const ProductCard : React.FunctionComponent<Product> = ({ image , name, id, price, supplier }) => {
+  const { url } = image[0]
 
   const[quantity, setQuantity] = React.useState<number>(1)
   const[isAdded, setIsAdded] = React.useState<boolean>(false)
@@ -38,16 +39,19 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     supplier,
   })
 
-  const { addToCart, removeFromCart, searchFromCart } = useCart();
-
+  const { cart, addToCart, removeFromCart, searchFromCart } = useCart();
+  const productUsed = cart.find((item) => item.id === id)
   React.useEffect(() => {
     const { found, quantityMain } = searchFromCart(id)
     if (found) {
       setIsAdded(true)
       setQuantity(quantityMain)
     }
+    else {
+      setIsAdded(false)
+    }
     console.log(product)
-  }, [])
+  }, [productUsed])
 
   const incrementQuantity = () : void => {
     if(isAdded) return
@@ -59,13 +63,13 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     setQuantity(quantity - 1)
   }
 
-  const handleCart = ({ id, product , quantity, subTotal }: DetailOrder) : void => {
+  const handleCart = ({ id, product , quantity, subTotal, url }: DetailOrder) : void => {
     if (isAdded) {
       removeFromCart(id)
       setIsAdded(false)
     } else {
       const subTotal = quantity * price
-      addToCart({ id, quantity, subTotal, product })
+      addToCart({ id, quantity, subTotal, product, url })
       setIsAdded(true)
     }
   }
@@ -74,7 +78,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     <>
       <div className={`w-64 h-auto rounded-lg ${inter.className}`} data-os="fade-up">
         <div className="bg-backProduct w-full h-[215px] flex justify-center items-center">
-          <Image src={image[0].url} alt="product" className="mx-auto"/>
+          <Image src={url} alt="product" className="mx-auto"/>
         </div>
         <div className='flex flex-col gap-2 w-full pt-3'>
           <p className='text-md font-medium w-full h-20'>{ name }</p>
@@ -107,7 +111,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
           <button 
             type="button" 
             className="bg-rojo w-12 h-10 flex justify-center items-center rounded-md"
-            onClick={() => handleCart({ id, product, quantity, subTotal: quantity * price })} 
+            onClick={() => handleCart({ id, product, quantity, subTotal: quantity * price, url })} 
             title="Eliminar de la cesta"
           >
             <Image src={isAdded ? Cancel : IconProduct} alt="iconProduct" className="w-7 h-7" />

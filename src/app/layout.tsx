@@ -26,7 +26,7 @@ export default function RootLayout({
 
   return (
     <StrictMode>
-      <ClerkProvider publishableKey="">
+      <ClerkProvider>
         <html lang="en">
           <body
             className={`${inter.className} antialiased bg-white overflow-x-hidden`}
