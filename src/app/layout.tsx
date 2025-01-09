@@ -31,9 +31,6 @@ export default function RootLayout({
           <body
             className={`${inter.className} antialiased bg-white overflow-x-hidden`}
           >
-            <GoogleOneTap 
-              fedCmSupport={false}
-            />
             <HeaderLayout />
             {children}
           </body>

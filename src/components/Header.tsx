@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useClerk } from "@clerk/nextjs";
 import { SheetCart } from "./sheet-cart";
 import { usePathname } from "next/navigation";
+import TooltipUser from "./TooltipUser";
 
 export function Header() {
   const { signOut } = useClerk()
@@ -94,7 +95,7 @@ export function Header() {
                 <Image src={Search} alt="" className="h-5 w-6 my-auto" />
               </label>
             </div>
-            <Image src={User} alt="" className="h-6 my-auto" />
+            <TooltipUser />
             {/*"<Cart />"*/}
             <SheetCart />
 
