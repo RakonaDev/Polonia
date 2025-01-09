@@ -5,7 +5,7 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props"
 export interface DetailOrder {
   id: string
   product: Pick<Product, 'name' | 'id' | 'price' | 'supplier'>
-  url: string
+  url: StaticImageData
   quantity: number
   subTotal: number
 }

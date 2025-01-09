@@ -78,7 +78,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     <>
       <div className={`w-64 h-auto rounded-lg ${inter.className}`} data-os="fade-up">
         <div className="bg-backProduct w-full h-[215px] flex justify-center items-center">
-          <Image src={url} alt="product" className="mx-auto"/>
+          <Image src={url} alt="product" className="mx-auto" />
         </div>
         <div className='flex flex-col gap-2 w-full pt-3'>
           <p className='text-md font-medium w-full h-20'>{ name }</p>
