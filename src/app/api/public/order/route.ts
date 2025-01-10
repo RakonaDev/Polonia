@@ -21,7 +21,8 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
       payer: {
         email: "juancajas1905@gmail.com",
       },
-      notification_url: "https://polonia-three.vercel.app/api/public/order/webhook",
+      notification_url: "https://vn4c8t2c-3000.brs.devtunnels.ms/api/public/order/webhook",
+      
     }
   })
 

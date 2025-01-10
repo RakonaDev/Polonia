@@ -16,16 +16,14 @@ import { AnimatePresence } from "framer-motion";
 import React from "react";
 import Link from "next/link";
 import { ProductCardOrder } from "./ProductCardOrder";
+import { useRedirect } from "@/zustand/useRedirect";
+import { useUser } from "@clerk/nextjs";
 
 export function SheetCart() {
+  const { user } = useUser()
   const { cart, total } = useCart()
-  /*const [total, setTotal] = React.useState<number>(0)*/
-  /*
-  React.useEffect(() => {
-    const newTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-    setTotal(newTotal);
-  }, [cart.length]);
-  */
+  const { redirectUrl, setRedirectUrl } = useRedirect()
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -76,8 +74,9 @@ export function SheetCart() {
                 </div>
                 <div>
                   <Link
-                    href="/sign-in"
+                    href={user?.id ? "/pagos" : "/sign-in"}
                     className="bg-gradient-to-b from-red-500 to-red-600 py-2 px-8 text-white text-lg rounded-xl focus:ring-2 focus:ring-black focus:ring-offset-black"
+                    onClick={() => setRedirectUrl('/pago')}
                   >
                     Comprar los Productos Pedidos {`(${cart.length})`}
                   </Link>
