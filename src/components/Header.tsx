@@ -3,23 +3,19 @@ import { FacebookIcon } from "@/icons/FacebookIcon";
 import { InstagramIcon } from "@/icons/InstagramIcon";
 import { TiktokIcon } from "@/icons/TiktokIcon";
 import { YoutubeIcon } from "@/icons/YoutubeIcon";
-import Cart from "./Cart";
 
 import Logo from '../assets/components/logo.svg'
 import Search from '../assets/components/search.svg'
-import User from '../assets/components/user.svg'
 import Whats from '../assets/components/whats.svg'
 import Download from '../assets/components/download.svg'
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useClerk } from "@clerk/nextjs";
 import { SheetCart } from "./sheet-cart";
 import { usePathname } from "next/navigation";
 import TooltipUser from "./TooltipUser";
 
 export function Header() {
-  const { signOut } = useClerk()
   const pathname = usePathname()
   const[isScrolled, setIsScrolled] = useState<boolean>(false)
   const[lastScrollY, setLastScrollY] = useState<number>(0);
@@ -80,7 +76,7 @@ export function Header() {
       <header className={`w-full h-auto group fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
         <div className="bg-rojo relative z-30">
           <div className="max-w-[90rem] w-full mx-auto p-4 flex gap-6">
-            <Image src={Logo} alt="" className="h-10 my-auto" width={190} height={50} onClick={() => signOut({ redirectUrl: '/' })} />
+            <Image src={Logo} alt="" className="h-10 my-auto" width={190} height={50} />
             <div className="flex-grow my-auto flex focus-within:outline-2 focus-within:outline-black">
               <input
                 type="search"

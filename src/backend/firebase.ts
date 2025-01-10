@@ -3,13 +3,22 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { Auth, getAuth } from "firebase/auth";
 
+const {
+  NEXT_PUBLIC_FIREBASE_API_KEY,
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  NEXT_PUBLIC_FIREBASE_MESSAGING_ID,
+  NEXT_PUBLIC_FIREBASE_APP_ID,
+} = process.env
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAsSjJykSje1_lUSSd_tk6KJCqwHggfuY0",
-  authDomain: "polonia-test.firebaseapp.com",
-  projectId: "polonia-test",
-  storageBucket: "polonia-test.firebasestorage.app",
-  messagingSenderId: "462945753090",
-  appId: "1:462945753090:web:90cf86056819e3b661af1b",
+  apiKey: NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: NEXT_PUBLIC_FIREBASE_MESSAGING_ID,
+  appId: NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 
