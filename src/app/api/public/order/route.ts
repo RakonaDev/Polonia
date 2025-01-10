@@ -1,8 +1,8 @@
-import { payment, preference } from "@/backend/mercadopago";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { preference } from "@/backend/mercadopago";
+import { NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
   /*const body = req.body;*/
 
   const response = await preference.create({
