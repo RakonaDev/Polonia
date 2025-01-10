@@ -2,6 +2,8 @@ import { preference } from "@/backend/mercadopago";
 import { NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
+/** @type { string } https://vn4c8t2c-3000.brs.devtunnels.ms/api/public/order/webhook */
+
 export async function POST(req: NextRequest, res: NextApiResponse) {
   /*const body = req.body;*/
 
@@ -19,7 +21,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
       payer: {
         email: "juancajas1905@gmail.com",
       },
-      notification_url: "https://vn4c8t2c-3000.brs.devtunnels.ms/api/public/order/webhook",
+      notification_url: "https://polonia-three.vercel.app/api/public/order/webhook",
     }
   })
 
