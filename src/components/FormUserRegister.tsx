@@ -11,6 +11,7 @@ import { signUpUser } from '@/backend/services/UserShop.services';
 import { useRouter } from 'next/navigation';
 import OtpInput from "react-otp-input";
 import { set } from 'zod';
+import { useRedirect } from '@/zustand/useRedirect';
 
 type FormValues = {
   name: string,
@@ -31,6 +32,7 @@ const exit = { opacity: 0, x: -30 }
 
 export default function FormUserRegister() {
   const router = useRouter()
+  const { redirectUrl, setRedirectUrl } = useRedirect()
 
   const [error, setError] = React.useState<boolean>(false)
   const [mensajeError, setMensajeError] = React.useState<string>('')
@@ -65,7 +67,8 @@ export default function FormUserRegister() {
         const userId = await signUpUser(data.email, data.password, data.username)
         if (userId) {
           await setActive({ session: completeSignUp.createdSessionId })
-          router.push('/')
+          router.push(redirectUrl)
+          setRedirectUrl('/')
         }
 
       } else {

@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import GoogleIcon from '@/assets/icons/google.svg'
+import { useRedirect } from '@/zustand/useRedirect'
 
 const initial = { opacity: 0, x: -30 }
 const animate = { opacity: 1, x: 0 }
@@ -24,7 +25,7 @@ export default function FormUserLogin() {
   const router = useRouter()
   const { signIn, setActive } = useSignIn()
   const id = useId()
-  const { user } = useUser()
+  const { redirectUrl, setRedirectUrl } = useRedirect()
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const [error, setError] = useState<boolean>(false)
@@ -42,7 +43,8 @@ export default function FormUserLogin() {
             session: result.createdSessionId,
           })
         }
-        router.push('/')
+        router.push(redirectUrl)
+        setRedirectUrl('/')
       }
 
     }

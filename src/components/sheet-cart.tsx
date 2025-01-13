@@ -2,7 +2,6 @@
 import { useCart } from "@/zustand/useCart";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -74,7 +73,7 @@ export function SheetCart() {
                 </div>
                 <div>
                   <Link
-                    href={user?.id ? "/pagos" : "/sign-in"}
+                    href={user?.id ? "/pago" : "/sign-in"}
                     className="bg-gradient-to-b from-red-500 to-red-600 py-2 px-8 text-white text-lg rounded-xl focus:ring-2 focus:ring-black focus:ring-offset-black"
                     onClick={() => setRedirectUrl('/pago')}
                   >

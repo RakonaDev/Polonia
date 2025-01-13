@@ -2,13 +2,14 @@
 import { useClerk, useSignIn, useSignUp } from "@clerk/nextjs"
 import GoogleButton from "@/assets/icons/google.svg"
 import Image from "next/image"
+import { useRedirect } from "@/zustand/useRedirect"
 
 export const SignInOAuthButtons = () => {
   const { signIn, isLoaded } = useSignIn()
   const { signUp } = useSignUp()
+  const { redirectUrl, setRedirectUrl } = useRedirect()
 
   console.log(isLoaded)
-
   if (!isLoaded) {
     return <>
       
@@ -19,7 +20,7 @@ export const SignInOAuthButtons = () => {
       signIn.authenticateWithRedirect({
         strategy: 'oauth_google',
         redirectUrl: '/sso-callback',
-        redirectUrlComplete: '/',
+        redirectUrlComplete: redirectUrl,
       })
       
       
@@ -28,9 +29,10 @@ export const SignInOAuthButtons = () => {
       signUp?.authenticateWithRedirect({
         strategy: 'oauth_google',
         redirectUrl: '/sso-callback',
-        redirectUrlComplete: '/',
+        redirectUrlComplete: redirectUrl,
         continueSignUp: true,
       })
+      setRedirectUrl('/')
     }
 
     return (

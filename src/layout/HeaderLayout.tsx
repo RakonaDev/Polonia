@@ -7,7 +7,8 @@ import React from 'react'
 const Routes = [
   '/',
   '/nosotros',
-  '/contacto'
+  '/contacto',
+  '/pago'
 ]
 
 export default function HeaderLayout() {
