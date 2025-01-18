@@ -5,7 +5,6 @@ import IconProduct from "../assets/components/iconProduct.svg"
 import Cancel from "../assets/components/cancel.svg"
 
 import { useCart } from "@/zustand/useCart"
-import { DetailOrder } from "@/backend/models/DetailOrder.modal"
 import Image, { StaticImageData } from "next/image"
 import { Inter } from "next/font/google"
 import { Product } from "@/backend/models/Product.modal"
@@ -50,7 +49,6 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     else {
       setIsAdded(false)
     }
-    console.log(product)
   }, [productUsed])
 
   const incrementQuantity = () : void => {
@@ -63,13 +61,14 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     setQuantity(quantity - 1)
   }
 
-  const handleCart = ({ id, product , quantity, subTotal, url }: DetailOrder) : void => {
+  const handleCart = ( id : string, title: string, unit_price: number  , quantity: number, url : StaticImageData, currency_id: string = "PEN" , supplier: string) : void => {
     if (isAdded) {
       removeFromCart(id)
       setIsAdded(false)
     } else {
-      const subTotal = quantity * price
-      addToCart({ id, quantity, subTotal, product, url })
+      const subTotal = quantity * unit_price
+      console.log({ id, title, unit_price, quantity, subTotal, url, supplier, currency_id })
+      addToCart({ id, title, unit_price, quantity, subTotal, url, supplier, currency_id })
       setIsAdded(true)
     }
   }
@@ -111,7 +110,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
           <button 
             type="button" 
             className="bg-rojo w-12 h-10 flex justify-center items-center rounded-md"
-            onClick={() => handleCart({ id, product, quantity, subTotal: quantity * price, url })} 
+            onClick={() => handleCart(product.id, product.name, product.price ,quantity, url, "PEN", product.supplier )} 
             title="Eliminar de la cesta"
           >
             <Image src={isAdded ? Cancel : IconProduct} alt="iconProduct" className="w-7 h-7" />

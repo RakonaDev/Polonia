@@ -52,7 +52,7 @@ export const useCart = create<Cart>()(
           state.cart.map((item) => {
             if (item.id === id) {
               item.quantity = item.quantity + 1
-              item.subTotal = item.quantity * item.product.price
+              item.subTotal = item.quantity * item.unit_price
             }
           })
           const newTotal = state.cart.reduce((acc, item) => acc + item.subTotal, 0)
@@ -66,7 +66,7 @@ export const useCart = create<Cart>()(
             if (item.id === id) {
               if (item.quantity === 1) return
               item.quantity = item.quantity - 1
-              item.subTotal = item.quantity * item.product.price
+              item.subTotal = item.quantity * item.unit_price
             }
           })
           const newTotal = state.cart.reduce((acc, item) => acc + item.subTotal, 0)
@@ -79,7 +79,7 @@ export const useCart = create<Cart>()(
           state.cart.map((item) => {
             if (item.id === id) {
               item.quantity = quantity
-              item.subTotal = item.quantity * item.product.price
+              item.subTotal = item.quantity * item.unit_price
             }
           })
           const newTotal = state.cart.reduce((acc, item) => acc + item.subTotal, 0)

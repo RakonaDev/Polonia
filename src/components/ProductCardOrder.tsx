@@ -7,7 +7,6 @@ import Minus from '@/assets/icons/caret-down.svg'
 import Plus from '@/assets/icons/caret-up.svg'
 import { useCart } from "@/zustand/useCart"
 import React from "react"
-import { Quicksand } from "next/font/google"
 
 export function ProductCardOrder(item: DetailOrder) {
   const [quantity, setQuantity] = React.useState<number>(item.quantity)
@@ -33,9 +32,9 @@ export function ProductCardOrder(item: DetailOrder) {
         />
       </div>
       <div className="flex-grow max-w-96">
-        <h1 className="overflow-hidden" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.product.name}</h1>
+        <h1 className="overflow-hidden" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.title}</h1>
         <p className="text-sm text-gris">{item.id}</p>
-        <p className="text-sm text-gris">{item.product.supplier}</p>
+        <p className="text-sm text-gris">{item.supplier}</p>
         <div className="bg-white p-2 w-fit mt-5 rounded-lg">
           <div className="font-medium flex items-center">
             <span>CANT </span>

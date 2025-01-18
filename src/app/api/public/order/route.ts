@@ -1,37 +1,45 @@
 import { preference } from "@/backend/mercadopago";
+import { userInfoSchema } from "@/backend/schemas/Order.schema";
 import { NextRequest, NextResponse } from "next/server";
+import { userInfo } from "os";
 
 /** @type { string } https://vn4c8t2c-3000.brs.devtunnels.ms/api/public/order/webhook */
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("BODY DE ORDER: ",body);
-
-    const response = await preference.create({
-      body: {
-        items: [
-          {
-            id: "123456789",
-            title: "Product 1",
-            quantity: 1,
-            currency_id: "PEN",
-            unit_price: 20,
+    const validation = userInfoSchema.safeParse(body);
+    console.log("VALIDATION: ", validation.error?.errors);
+    if (validation.success) {
+      console.log("BODY DE ORDER: ", validation.data);
+      const { nombre, apellido, direccion, distrito, ubicacion, telefono, correo } = validation.data;
+      const response = await preference.create({
+        body: {
+          items: validation.data.cart,
+          payer: {
+            email: validation.data.correo,
           },
-        ],
-        payer: {
-          email: "juancajas1905@gmail.com",
+          metadata: {
+            email: correo,
+            nombre,
+            apellido,
+            direccion,
+            distrito,
+            ubicacion,
+            telefono,
+          },
+          redirect_urls: {
+            success: process.env.NEXT_PUBLIC_URL + "success",
+          },
+          notification_url:
+            process.env.NEXT_PUBLIC_URL + "api/public/order/webhook",
         },
-        metadata: {
-          'test': 'test',
-        },
-        notification_url:
-          "https://9e37-2001-1388-1b8e-d6ef-f47b-db7b-3f35-2d3.ngrok-free.app/api/public/order/webhook",
-      },
-    });
-
-    return NextResponse.json(response, { status: 200 });
+      });
+      return NextResponse.json(response, { status: 200 });
+    }
+    console.log("Error")
+    return NextResponse.json({ message: "Error" }, { status: 500 });
   } catch (error) {
-    return NextResponse.json({ message: 'Error' }, { status: 500 });
+    return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }

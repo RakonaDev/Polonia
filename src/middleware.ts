@@ -1,13 +1,22 @@
 import { clerkMiddleware, ClerkMiddlewareAuth, createRouteMatcher } from "@clerk/nextjs/server"
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 
 const isAdminRoute = createRouteMatcher(['/admin/dashboard', '/admin/ventas', '/admin/usuarios', '/admin/productos'])
 const isAdminLogin = createRouteMatcher(['/admin/login'])
 const isUserLogin = createRouteMatcher(['/sign-in'])
+const isApiAdmin = createRouteMatcher(['/api/private(/.*)'])
 
 export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, request) => {
   const session = await auth()
-  
+
+  if (isApiAdmin(request)) {
+    console.log(session)
+    if( session.sessionClaims?.metadata?.role === 'admin' ) {
+      return NextResponse.next()
+    }
+    return NextResponse.json({ error: 'No tienes permisos para acceder a esta ruta' }, { status: 401 })
+  }
+
   if (isAdminLogin(request)) {
     if( session.sessionClaims?.metadata?.role === 'admin' ) {
       const url = new URL('/admin/dashboard', request.nextUrl)

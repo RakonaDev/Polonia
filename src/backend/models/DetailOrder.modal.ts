@@ -1,11 +1,13 @@
 import { StaticImageData } from "next/image"
 import { Product } from "./Product.modal"
-import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 export interface DetailOrder {
   id: string
-  product: Pick<Product, 'name' | 'id' | 'price' | 'supplier'>
+  title: string,
+  unit_price: number,
+  supplier: string,
   url: StaticImageData
   quantity: number
+  currency_id: string
   subTotal: number
 }

@@ -53,7 +53,10 @@ export function SheetCart() {
                     url={item.url}
                     key={index}
                     id={item.id}
-                    product={item.product}
+                    currency_id="PEN"
+                    title={item.title}
+                    supplier={item.supplier}
+                    unit_price={item.unit_price}
                     quantity={item.quantity}
                     subTotal={item.subTotal}
                   />

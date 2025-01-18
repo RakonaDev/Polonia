@@ -8,7 +8,7 @@ import LogoMaestro from '@/assets/icons/logo-maestro.svg'
 import LogoYape from '@/assets/icons/logo-yape.png'
 import Image from 'next/image'
 import { useUser } from '@clerk/nextjs'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 export default function PagoPage() {
   const { cart, total } = useCart()
@@ -31,17 +31,25 @@ export default function PagoPage() {
 
   const submitOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const response = await axios.post('/api/public/order', {
-      nombre,
-      apellido,
-      direccion,
-      distrito,
-      ubicacion,
-      telefono,
-      correo,
-    })
-    window.location = response.data.init_point
-    console.log(response)
+    try {
+      const response = await axios.post('/api/public/order', {
+        nombre,
+        apellido,
+        direccion,
+        distrito,
+        ubicacion,
+        telefono,
+        correo,
+        cart
+      })
+      window.location = response.data.init_point
+    }
+    catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.status)
+      }
+    }
+    
   }
 
   return (

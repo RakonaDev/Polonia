@@ -5,11 +5,9 @@ import EyesOpen from '@/assets/components/login/eyes-open.svg'
 import EyesClosed from '@/assets/components/login/eyes-closed.svg'
 import UserIcon from '@/assets/components/login/user.svg'
 import { FieldValues, useForm } from 'react-hook-form'
-import { GoogleOneTap, SignIn, useSignIn, useUser } from '@clerk/nextjs'
+import { useSignIn } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import axios from 'axios'
-import GoogleIcon from '@/assets/icons/google.svg'
 import { useRedirect } from '@/zustand/useRedirect'
 
 const initial = { opacity: 0, x: -30 }
@@ -159,53 +157,3 @@ export default function FormUserLogin() {
     </>
   )
 }
-
-/*
-  const signInWithGoogle = async () => {
-    try {
-      const result = await signIn?.create({
-        strategy: 'oauth_google',
-        redirectUrl: 'https://verified-filly-63.clerk.accounts.dev/v1/oauth_callback',
-        oidcPrompt: 'login',
-        actionCompleteRedirectUrl: '/',        
-      })
-      
-      if( result?.firstFactorVerification.externalVerificationRedirectURL ) {
-        const url = result.firstFactorVerification.externalVerificationRedirectURL
-        const stringUrl = url.toString()
-        const urlVerification = stringUrl.replace(/\\u0026/g, "&")
-        window.open(urlVerification+'&service=lso&o2v=1&ddm=1&flowName=GeneralOAuthFlow')
-      }
-
-      if (result?.id) {
-        
-        axios.post('http://localhost:3000/api/public/user/setrole', JSON.stringify({ userId: result.id, result }), {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).catch((error) => {
-          console.log(error)
-        })
-      }
-    }
-    catch (error) {
-      console.log('error', error)
-    }
-  }
-  <motion.div
-        className='mb-5 ring-4 ring-slate-950 bg-white p-2 w-fit rounded-2xl mx-auto cursor-pointer transition-all duration-700 hover:shadow-black hover:shadow-lg'
-        initial={initial}
-        animate={animate}
-        exit={exit}
-        transition={{ duration: 0.1 }}
-        onClick={signInWithGoogle}
-      >
-        <Image 
-          src={GoogleIcon}
-          alt="google"
-          width={40}
-          height={40}
-        />
-      
-      </motion.div>
-*/
