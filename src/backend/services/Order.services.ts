@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { addDoc, collection, getDocs, limit, orderBy, query, startAfter, startAt, where } from "firebase/firestore";
 import { OrderDatabase } from "../models/Order.modal";
 import { PoloniaDB } from "../firebase";
