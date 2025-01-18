@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     // USUARIO CREADO
     else if (evt.type === "user.created") {
       console.log("FUNCIONA");
-      /*
+      
       const { id, username, email_addresses, first_name } = body.data;
       const { email_address } = email_addresses[0];
       const creadedAt =
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
         creadedAt,
         updatedAt: creadedAt,
       });
-      */
+      
       return NextResponse.json({ message: "Usuario creado", status: 200 });
     }
 
