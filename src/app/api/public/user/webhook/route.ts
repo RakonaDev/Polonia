@@ -6,7 +6,7 @@ import { addDoc, deleteDoc, doc, FirestoreError, getDocs, query, where } from 'f
 import { PoloniaDB } from '@/backend/firebase'
 import { userCollection } from '@/backend/collections/user.collection'
 
-const SIGNING_SECRET = process.env.SIGNING_SECRET || ""
+const SIGNING_SECRET = process.env.SIGNING_SECRET
 
 export async function POST(req: NextRequest) {
   
@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
       status: 400,
     })
   }
-  
 
   try {
     const body = await req.json()
@@ -44,7 +43,7 @@ export async function POST(req: NextRequest) {
     console.log(body.type)
 
     // USUARIO BORRADO
-    if(body.type === 'user.deleted') {
+    if(evt.type === 'user.deleted') {
       console.log(body)
 
       // Buscar el documento donde el campo "id" coincida
@@ -63,7 +62,7 @@ export async function POST(req: NextRequest) {
       });
     }
     // USUARIO CREADO
-    else if (body.type === 'user.created') {
+    else if (evt.type === 'user.created') {
       const { id, username, email_addresses, first_name } = body.data
       const { email_address } = email_addresses[0]
       const creadedAt = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
@@ -88,7 +87,7 @@ export async function POST(req: NextRequest) {
     else if (err instanceof WebhookVerificationError) {
       return NextResponse.json({ message: err.message, status: 400 })
     }
+    return NextResponse.json({ message: err, status: 400 })
   }
 
-  return new Response('Webhook received', { status: 200 })
 }

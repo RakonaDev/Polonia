@@ -2,6 +2,7 @@
 
 import { payment } from "@/backend/mercadopago";
 import { saveOrder } from "@/backend/services/Order.services";
+import { Payment, PaymentMethod } from "mercadopago";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,6 +12,7 @@ export async function POST(req: NextRequest) {
     const type = url.searchParams.get("type");
     if (type === "payment" && params) {
       const result = await payment.get({ id: params });
+      
       const schemaOrder = {
         id: params,
         email: result.metadata?.email,
@@ -32,6 +34,7 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ message: 'Error no se ha encontrado el pago'} , { status: 404 });
   } catch (error) {
+    
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }
