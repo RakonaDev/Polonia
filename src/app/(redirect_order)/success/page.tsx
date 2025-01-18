@@ -1,3 +1,4 @@
+'use client'
 import { useCart } from '@/zustand/useCart'
 import { useRouter } from 'next/navigation'
 import React from 'react'
