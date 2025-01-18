@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
           await deleteDoc(doc(PoloniaDB, "users", docSnapshot.id)); // Eliminar por document ID
           console.log(`Documento con el campo 'id' = ${docSnapshot.id} eliminado.`);
       });
+      return NextResponse.json({ message: 'Usuario borrado', status: 200 })
     }
     // USUARIO CREADO
     else if (evt.type === 'user.created') {
@@ -74,7 +75,7 @@ export async function POST(req: NextRequest) {
         creadedAt,
         updatedAt: creadedAt,
       })
-      
+      return NextResponse.json({ message: 'Usuario creado', status: 200 })
     }
 
     return new Response('Webhook received', { status: 200 })
