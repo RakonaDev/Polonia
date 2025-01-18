@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     /*const body = await req.json()*/
-    const docs = await getOrder()
+    const docs = await getOrder(10)
     return NextResponse.json(docs, { status: 200 });
   }
   catch (error) {
