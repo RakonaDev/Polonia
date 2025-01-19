@@ -5,7 +5,7 @@ const isAdminRoute = createRouteMatcher(['/admin/dashboard', '/admin/ventas', '/
 const isAdminLogin = createRouteMatcher(['/admin/login'])
 const isUserLogin = createRouteMatcher(['/sign-in'])
 const isApiAdmin = createRouteMatcher(['/api/private(/.*)'])
-const isWebHookPublic = createRouteMatcher(['/api/public(.*)'])
+const isWebHookPublic = createRouteMatcher(['/api/public(/.*)'])
 
 export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, request) => {
   const session = await auth()

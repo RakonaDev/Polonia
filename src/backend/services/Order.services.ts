@@ -36,11 +36,11 @@ export async function getOrder (pageSize: number, lastDoc?: any) {
   );
 
   // Realiza ambas consultas
-  const [pendingSnapshot, nonPendingSnapshot] = await Promise.all([
-    getDocs(q),
-    getDocs(Qpending),
-  ]);
   const querySnapshot = await getDocs(q)
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
   const docs = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-  return docs
+  return {
+    docs,
+    lastVisible
+  }
 }

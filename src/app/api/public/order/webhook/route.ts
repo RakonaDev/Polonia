@@ -2,7 +2,6 @@
 
 import { payment } from "@/backend/mercadopago";
 import { saveOrder } from "@/backend/services/Order.services";
-import { Payment, PaymentMethod } from "mercadopago";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

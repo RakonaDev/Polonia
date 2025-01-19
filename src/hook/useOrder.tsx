@@ -9,7 +9,12 @@ type FetchState<T> = {
   loading: boolean;
 };
 
-export default function useOrder<T = OrderDatabase>(
+type OrderResponse = {
+  docs: OrderDatabase[]
+  lastVisible: OrderDatabase
+}
+
+export default function useOrder<T = OrderResponse>(
   url: string,
   options?: AxiosRequestConfig,
   immediate: boolean = true // Si se debe hacer el fetch inmediatamente al montar el componente

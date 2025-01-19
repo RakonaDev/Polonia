@@ -22,7 +22,7 @@ export interface OrderDatabase {
   telefono?: string
   items?: Items[]
   createdAt?: string
-  status: string
+  status: string | 'Pendiente' | 'Completo'
 } 
 
 export interface DetailOrderDatabase {

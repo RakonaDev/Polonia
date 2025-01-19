@@ -49,16 +49,14 @@ export async function POST(req: NextRequest) {
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
     }) as WebhookEvent;
-    console.log(body.type);
 
     // USUARIO BORRADO
     if (evt.type === "user.deleted") {
-      console.log(body);
 
       // Buscar el documento donde el campo "id" coincida
-      const q = query(userCollection, where("id", "==", body.data.id));
+      const q = query(userCollection, where("id", "==", evt.data.id));
       const querySnapshot = await getDocs(q);
-
+      
       if (querySnapshot.empty) {
         console.log("No se encontró un documento con ese ID.");
         return NextResponse.json({
@@ -77,12 +75,11 @@ export async function POST(req: NextRequest) {
     }
     // USUARIO CREADO
     else if (evt.type === "user.created") {
-      console.log("FUNCIONA");
+
       
       const { id, username, email_addresses, first_name } = body.data;
       const { email_address } = email_addresses[0];
-      const creadedAt =
-        new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+      const creadedAt = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
 
       await addDoc(userCollection, {
         id,
