@@ -79,14 +79,14 @@ export async function POST(req: NextRequest) {
       
       const { id, username, email_addresses, first_name } = body.data;
       const { email_address } = email_addresses[0];
-      const creadedAt = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+      const createdAt = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
 
       await addDoc(userCollection, {
         id,
         username: username || first_name,
         email_address,
-        creadedAt,
-        updatedAt: creadedAt,
+        createdAt,
+        updatedAt: createdAt,
       });
       
       return NextResponse.json({ message: "Usuario creado", status: 200 });

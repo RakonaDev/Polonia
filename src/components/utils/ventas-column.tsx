@@ -1,6 +1,6 @@
 'use client'
 
-import { DetailOrderDatabase, OrderDatabase } from "@/backend/models/Order.modal";
+import { OrderDatabase } from "@/backend/models/Order.modal";
 import { JSX } from "react";
 
 export default function VentasColumn(order: OrderDatabase): JSX.Element {

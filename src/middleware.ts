@@ -11,11 +11,11 @@ export default clerkMiddleware(async (auth: ClerkMiddlewareAuth, request) => {
   const session = await auth()
 
   if (isWebHookPublic(request)) {
+    
     return NextResponse.next()
   }
 
   if (isApiAdmin(request)) {
-    console.log(session)
     if( session.sessionClaims?.metadata?.role === 'admin' ) {
       return NextResponse.next()
     }

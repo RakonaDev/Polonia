@@ -1,10 +1,14 @@
 'use client'
 import VentasColumn from '@/components/utils/ventas-column'
 import useOrder from '@/hook/useOrder'
+import { useFeatures } from '@/zustand/useFeatures'
 import React from 'react'
 
+const apiURL = process.env.NEXT_PUBLIC_URL + 'api/private/order'
+
 export default function VentasPage() {
-  const { data } = useOrder(process.env.NEXT_PUBLIC_URL + 'api/private/order')
+  const { setError, setLoading } = useFeatures()
+  const { data } = useOrder({ url: apiURL, immediate: true, setLoading, setError })
 
   console.log(data)
 

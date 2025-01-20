@@ -18,6 +18,9 @@ export default {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        inputs: "repeat(auto-fit, minmax(200px, 1fr))",
+      },
       animation: {
         scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
         aurora: "aurora 60s linear infinite",
@@ -60,7 +63,8 @@ export default {
         'border-option': '#F0F1F7',
         'border': "#4a5568",
         'gris': '#616161',
-        'contacto': '#303030'
+        'contacto': '#303030',
+        'bg-form': '#E4E4E4'
       },
     },
   },

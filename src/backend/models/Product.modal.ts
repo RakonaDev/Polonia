@@ -17,6 +17,24 @@ export interface Product {
   updatedAt?: Date
 }
 
+export interface ProductDatabase {
+  id?: string
+  name?: string
+  price?: number
+  url_images: ImageUrl[]
+  description?: string
+  category?: string
+  supplier?: string
+  stock?: number
+  createdAt?: string
+  updatedAt?: string
+}
+
+interface ImageUrl {
+  public_id: string
+  secure_url: string
+}
+
 export interface StatusProduct {
   isAdded: boolean
   setIsAdded: (isAdded: boolean) => void
