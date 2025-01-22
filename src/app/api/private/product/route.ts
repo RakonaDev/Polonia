@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import path from "path";
+import path from "node:path";
 import { writeFile } from "fs/promises";
 import { deleteProduct, saveProduct, updateProduct } from "@/backend/services/Product.services";
 import fs from "fs";
@@ -56,9 +56,12 @@ export async function POST(req: NextRequest) {
     const imagen1: FormDataEntryValue | File | null = data.get("imagen1");
     const imagen2: FormDataEntryValue | File | null = data.get("imagen2");
     const imagen3: FormDataEntryValue | File | null = data.get("imagen3");
-    
-    if (!imagen1 && !imagen2 && !imagen3) {
-      return NextResponse.json({ message: "Faltan Imagenes" }, { status: 400 });
+    console.log(imagen1, imagen2, imagen3)
+    console.log(path)
+    if (imagen1 == undefined || imagen2 == undefined || imagen3 == undefined) {
+      console.log("Faltan imagenes!!")
+      /* return NextResponse.json({ message: "Faltan Imagenes" }, { status: 400 }); */
+      throw new Error("Faltan imagenes!!")
     }
 
     const imagenParseada1 = imagen1 as File
