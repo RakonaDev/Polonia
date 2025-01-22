@@ -173,7 +173,7 @@ export async function DELETE(req: NextRequest) {
   }
 } 
 
-export async function UPDATE(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   try {
     let ID_Document = ''
     const data: FormData = await req.formData();
