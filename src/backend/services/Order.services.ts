@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { addDoc, collection, getDocs, limit, orderBy, query, startAfter, startAt, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, startAt, where } from "firebase/firestore";
 import { OrderDatabase } from "../models/Order.modal";
 import { PoloniaDB } from "../firebase";
 import { orderCollection } from "../collections/order.collection";
-import { start } from "repl";
 
 export async function saveOrder (order: OrderDatabase) {
   return await addDoc(collection(PoloniaDB, "orders"), order)
@@ -43,4 +42,10 @@ export async function getOrder (pageSize: number, lastDoc?: any) {
     docs,
     lastVisible
   }
+}
+
+export async function getOrderById (id: string) {
+  const docRef = doc(PoloniaDB, "orders", id)
+  const order = await getDoc(docRef)
+  return order
 }

@@ -18,6 +18,7 @@ export interface Product {
 }
 
 export interface ProductDatabase {
+  ID_Document?: string
   id?: string
   name?: string
   price?: number

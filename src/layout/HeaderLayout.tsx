@@ -22,7 +22,7 @@ export default function HeaderLayout() {
   return (
     <>
       {loading ? (
-        <div className='w-full h-screen absolute top-0 bg-[#212121] z-[10000] flex flex-col justify-center items-center gap-6'>
+        <div className='w-full h-screen fixed top-0 bg-[#212121] z-[10000] flex flex-col justify-center items-center gap-6'>
           <p className='flex gap-5 items-center'>
             <Image src={Polonia} alt='Polonia' width={80} height={80} priority/>
             <span className='text-rojo font-bold text-xl'>Cargando Datos...</span>

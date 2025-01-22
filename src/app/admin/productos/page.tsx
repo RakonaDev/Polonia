@@ -163,6 +163,7 @@ export default function ProductosPage() {
               products.map((product) => (
                 <ProductosColumn
                   key={product.id}
+                  ID_Document={product.ID_Document}
                   id={product.id}
                   name={product.name}
                   price={product.price}

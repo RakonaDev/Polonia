@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       const { email_address } = email_addresses[0];
       const createdAt = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
 
-      await addDoc(userCollection, {
+      const response =await addDoc(userCollection, {
         id,
         username: username || first_name,
         email_address,
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
         updatedAt: createdAt,
       });
       
-      return NextResponse.json({ message: "Usuario creado", status: 200 });
+      return NextResponse.json({ message: "Usuario creado", id: response.id , status: 200 });
     }
 
     return new Response("Webhook received", { status: 200 });
