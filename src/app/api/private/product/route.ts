@@ -11,7 +11,7 @@ import { productCollection } from "@/backend/collections/product.collection";
 cloudinary.config({
   cloud_name: "dur0pnewh",
   api_key: "874359784668976",
-  api_secret: process.env.NEXT_PUBLIC_CLOUDINARY,
+  api_secret: '' + process.env.NEXT_PUBLIC_CLOUDINARY,
 });
 
 export async function GET(req: NextRequest) {
