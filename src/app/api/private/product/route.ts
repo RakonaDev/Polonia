@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const development = process.env.NEXT_PUBLIC_DEVELOPMENT
-  const root = development !== 'development' ? '/cache/' : process.cwd() + 'assets/'
+  const root = development !== 'development' ? '/src/images/' : process.cwd() + 'assets/'
   try {
     const data: FormData = await req.formData();
 
@@ -71,9 +71,9 @@ export async function POST(req: NextRequest) {
     const imagenParseada2 = imagen2 as File
     const imagenParseada3 = imagen3 as File
     
-    const pathFile1 = path.join(root, "images/productos", imagenParseada1.name)
-    const pathFile2 = path.join(root, "images/productos", imagenParseada2.name)
-    const pathFile3 = path.join(root, "images/productos", imagenParseada3.name)
+    const pathFile1 = path.join(root, "productos", imagenParseada1.name)
+    const pathFile2 = path.join(root, "productos", imagenParseada2.name)
+    const pathFile3 = path.join(root, "productos", imagenParseada3.name)
 
     const bytes1 = await imagenParseada1.arrayBuffer()
     const bytes2 = await imagenParseada2.arrayBuffer()
