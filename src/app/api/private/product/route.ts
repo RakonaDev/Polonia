@@ -68,10 +68,11 @@ export async function POST(req: NextRequest) {
     const imagenParseada2 = imagen2 as File
     const imagenParseada3 = imagen3 as File
     
-    const pathFile1 = path.join(process.cwd(), "public/images/productos", imagenParseada1.name)
-    const pathFile2 = path.join(process.cwd(), "public/images/productos", imagenParseada2.name)
-    const pathFile3 = path.join(process.cwd(), "public/images/productos", imagenParseada3.name)
+    const pathFile1 = path.join(process.cwd(), "assets/images/productos", imagenParseada1.name)
+    const pathFile2 = path.join(process.cwd(), "assets/images/productos", imagenParseada2.name)
+    const pathFile3 = path.join(process.cwd(), "assets/images/productos", imagenParseada3.name)
 
+    console.log(pathFile3)
     const bytes1 = await imagenParseada1.arrayBuffer()
     const bytes2 = await imagenParseada2.arrayBuffer()
     const bytes3 = await imagenParseada3.arrayBuffer()
