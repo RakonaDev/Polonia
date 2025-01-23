@@ -4,7 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 import path from "node:path";
 import { writeFile } from "fs/promises";
 import { deleteProduct, saveProduct, updateProduct } from "@/backend/services/Product.services";
-import fs from "fs";
+import fs from "node:fs";
 import { getDocs, query } from "firebase/firestore";
 import { productCollection } from "@/backend/collections/product.collection";
 
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     const pathFile1 = path.join(process.cwd(), "assets/images/productos", imagenParseada1.name)
     const pathFile2 = path.join(process.cwd(), "assets/images/productos", imagenParseada2.name)
     const pathFile3 = path.join(process.cwd(), "assets/images/productos", imagenParseada3.name)
-
+    console.log(process.cwd())
     console.log(pathFile3)
     const bytes1 = await imagenParseada1.arrayBuffer()
     const bytes2 = await imagenParseada2.arrayBuffer()
