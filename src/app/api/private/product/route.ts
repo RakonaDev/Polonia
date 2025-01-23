@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const development = process.env.NEXT_PUBLIC_DEVELOPMENT
-  const root = development !== 'development' ? '.next/cache/images' : process.cwd() + '/public/images/'
+  const root = development !== 'development' ? 'socios/' : process.cwd() + '/public/images/'
   try {
     const data: FormData = await req.formData();
 
