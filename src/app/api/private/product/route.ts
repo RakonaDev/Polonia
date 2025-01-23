@@ -44,8 +44,11 @@ export async function GET(req: NextRequest) {
 
 
 export async function POST(req: NextRequest) {
+  const development = process.env.NEXT_PUBLIC_DEVELOPMENT
+  const root = development === 'development' ? '' : process.cwd()
   try {
     const data: FormData = await req.formData();
+
     const id = data.get("id")?.toString();
     const nombre = data.get("nombre")?.toString().toLowerCase();
     const precio = data.get("precio")?.toString();
@@ -58,7 +61,7 @@ export async function POST(req: NextRequest) {
     const imagen3: FormDataEntryValue | File | null = data.get("imagen3");
     console.log(imagen1, imagen2, imagen3)
     console.log(path)
-    if (imagen1 == undefined || imagen2 == undefined || imagen3 == undefined) {
+    if (imagen1 == null || imagen2 == null || imagen3 == null) {
       console.log("Faltan imagenes!!")
       /* return NextResponse.json({ message: "Faltan Imagenes" }, { status: 400 }); */
       throw new Error("Faltan imagenes!!")
@@ -68,11 +71,10 @@ export async function POST(req: NextRequest) {
     const imagenParseada2 = imagen2 as File
     const imagenParseada3 = imagen3 as File
     
-    const pathFile1 = path.join(process.cwd(), "assets/images/productos", imagenParseada1.name)
-    const pathFile2 = path.join(process.cwd(), "assets/images/productos", imagenParseada2.name)
-    const pathFile3 = path.join(process.cwd(), "assets/images/productos", imagenParseada3.name)
-    console.log(process.cwd())
-    console.log(pathFile3)
+    const pathFile1 = path.join(root, "assets/images/productos", imagenParseada1.name)
+    const pathFile2 = path.join(root, "assets/images/productos", imagenParseada2.name)
+    const pathFile3 = path.join(root, "assets/images/productos", imagenParseada3.name)
+
     const bytes1 = await imagenParseada1.arrayBuffer()
     const bytes2 = await imagenParseada2.arrayBuffer()
     const bytes3 = await imagenParseada3.arrayBuffer()
