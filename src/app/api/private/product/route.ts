@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
+import cloudinary  from "cloudinary";
 import path from "node:path";
 import { writeFile } from "fs/promises";
 import { deleteProduct, saveProduct, updateProduct } from "@/backend/services/Product.services";
@@ -8,7 +8,7 @@ import fs from "node:fs";
 import { getDocs, query } from "firebase/firestore";
 import { productCollection } from "@/backend/collections/product.collection";
 
-cloudinary.config({
+cloudinary.v2.config({
   cloud_name: "dur0pnewh",
   api_key: "874359784668976",
   api_secret: '' + process.env.NEXT_PUBLIC_CLOUDINARY,
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
     const imagenParseada1 = imagen1 as File
     const imagenParseada2 = imagen2 as File
     const imagenParseada3 = imagen3 as File
-    
+    /*
     const pathFile1 = path.join(root, "", imagenParseada1.name)
     const pathFile2 = path.join(root, "", imagenParseada2.name)
     const pathFile3 = path.join(root, "", imagenParseada3.name)
@@ -86,7 +86,27 @@ export async function POST(req: NextRequest) {
     await writeFile(pathFile1, buffer1)
     await writeFile(pathFile2, buffer2)
     await writeFile(pathFile3, buffer3)
+    */
 
+    const uploadToCloudinary = async (file: File) => {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const base64Image = `data:${file.type};base64,${buffer.toString("base64")}`;
+
+      return cloudinary.v2.uploader.upload(base64Image, {
+        folder: "Polonia",
+        transformation: { height: 210, crop: "scale" },
+      });
+    };
+
+    const response1 = await uploadToCloudinary(imagenParseada1);
+    const response2 = await uploadToCloudinary(imagenParseada2);
+    const response3 = await uploadToCloudinary(imagenParseada3);
+    const url_images = [
+      { public_id: response1.public_id, secure_url: response1.secure_url },
+      { public_id: response2.public_id, secure_url: response2.secure_url },
+      { public_id: response3.public_id, secure_url: response3.secure_url },
+    ];
+    /*
     const response1 = await cloudinary.uploader.upload(pathFile1, {
       folder: 'Polonia',
       transformation: {
@@ -125,6 +145,7 @@ export async function POST(req: NextRequest) {
         secure_url: response3.secure_url,
       }
     ]
+    */
 
     const productRef = await saveProduct({
       id,
@@ -140,6 +161,7 @@ export async function POST(req: NextRequest) {
     })
     
     // Eliminar archivos
+    /*
     fs.unlink(pathFile1, (err) => {
       if (err) throw err;
     });
@@ -149,7 +171,7 @@ export async function POST(req: NextRequest) {
     fs.unlink(pathFile3, (err) => {
       if (err) throw err;
     });
-    
+    */
     return NextResponse.json(
       { message: "Producto creado correctamente", status: true },
       { status: 200 }
@@ -227,7 +249,7 @@ export async function PATCH(req: NextRequest) {
     await writeFile(pathFile2, buffer2)
     await writeFile(pathFile3, buffer3)
 
-    const response1 = await cloudinary.uploader.upload(pathFile1, {
+    const response1 = await cloudinary.v2.uploader.upload(pathFile1, {
       folder: 'Polonia',
       transformation: {
         height: 210,
@@ -235,7 +257,7 @@ export async function PATCH(req: NextRequest) {
       }
     });
 
-    const response2 = await cloudinary.uploader.upload(pathFile2, {
+    const response2 = await cloudinary.v2.uploader.upload(pathFile2, {
       folder: 'Polonia',
       transformation: {
         height: 210,
@@ -243,7 +265,7 @@ export async function PATCH(req: NextRequest) {
       }
     });
 
-    const response3 = await cloudinary.uploader.upload(pathFile3, {
+    const response3 = await cloudinary.v2.uploader.upload(pathFile3, {
       folder: 'Polonia',
       transformation: {
         height: 210,
