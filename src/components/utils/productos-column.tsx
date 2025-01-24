@@ -1,19 +1,32 @@
 import { ProductDatabase } from "@/backend/models/Product.modal"
-import Image from "next/image"
 import { JSX } from "react"
 import { CldImage } from 'next-cloudinary';
 import axios from "axios";
+import useProducts from "@/hook/useProducts";
+import { apiUrl } from "@/app/admin/productos/page";
 
 export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
+  const { setState } = useProducts({
+    url: apiUrl,
+    immediate: false
+  })
   const eliminarProducto = async () => {
-    await axios.delete('http://localhost:3000/api/private/product', {
-      data: {
-        id: product.ID_Document
-      }
-    })
+    try{ 
+      const response = await axios.delete(process.env.NEXT_PUBLIC_BACKEND_URL+ 'private/product', {
+        data: {
+          id: product.ID_Document
+        }
+      })
+      
+      console.log("Exitoso")
+      setState((prevState: ProductDatabase[]) => prevState.filter(product => product.ID_Document !== product.ID_Document))
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
   return (
-    <tr key={product.id}>
+    <tr key={product.ID_Document}>
       <td className='text-center p-2'>{product.id}</td>
       <td className='text-center p-2'>{product.name}</td>
       <td className='text-center p-2'>{product.price}</td>

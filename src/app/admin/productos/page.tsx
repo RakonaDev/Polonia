@@ -7,7 +7,7 @@ import { useFeatures } from '@/zustand/useFeatures';
 import { AxiosRequestConfig } from 'axios';
 import { ProductosColumn } from '@/components/utils/productos-column';
 
-const apiUrl = process.env.NEXT_PUBLIC_URL + 'api/private/product'
+export const apiUrl = process.env.NEXT_PUBLIC_URL + 'api/private/product'
 
 const axiosOptions: AxiosRequestConfig = {
   method: 'GET'
@@ -15,14 +15,14 @@ const axiosOptions: AxiosRequestConfig = {
 
 export default function ProductosPage() {
   const { setError, setLoading } = useFeatures()
-  const { handleSubmit, handleChange,handleChangeTextarea, IDProducto, nombreProducto, precioProducto, categoriaProducto, proveedorProducto, stockProducto, descripcionProducto, imagenProducto } = useFormProducto()
-  const { products } = useProducts({
+  const { products, setState } = useProducts({
     setLoading,
     setError,
     url: apiUrl,
     options: axiosOptions,
     immediate: true
   })
+  const { handleSubmit, handleChange,handleChangeTextarea, IDProducto, nombreProducto, precioProducto, categoriaProducto, proveedorProducto, stockProducto, descripcionProducto, imagenProducto } = useFormProducto(setState)
   console.log(products)
   return (
     <main className="mt-6">

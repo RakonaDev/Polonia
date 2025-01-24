@@ -3,8 +3,10 @@
 import axios, { AxiosError } from "axios"
 import { useState } from "react"
 import Swal from 'sweetalert2'
+import { ProductDatabase } from "@/backend/models/Product.modal";
 
-export default function useFormProducto() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function useFormProducto(setState: any) {
   const [IDProducto, setIDProducto] = useState<string>('')
   const [nombreProducto, setNombreProducto] = useState<string>('')
   const [precioProducto, setPrecioProducto] = useState<number>(0)
@@ -34,6 +36,7 @@ export default function useFormProducto() {
       const response = await axios.post(process.env.NEXT_PUBLIC_URL + 'api/private/product', formData, {
         method: 'POST'
       })
+      setState((prevState: ProductDatabase[]) => [...prevState, response.data.producto])
       Swal.fire({
         title: 'Producto creado',
         text: 'El producto ha sido creado exitosamente',
@@ -48,6 +51,7 @@ export default function useFormProducto() {
           text: error.response?.data.message,
           icon: 'error',
           confirmButtonText: 'Aceptar',
+          backdrop: false,
         })
         console.log(error.message)
       }

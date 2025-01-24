@@ -159,6 +159,19 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
       updatedAt: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
     })
+    const newProduct = {
+      ID_Document: productRef.id,
+      id,
+      name: nombre,
+      price: Number(precio),
+      url_images,
+      category: categoria,
+      description: descripcion,
+      supplier: supplier,
+      stock: Number(stock),
+      createdAt: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+      updatedAt: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+    }
     
     // Eliminar archivos
     /*
@@ -173,7 +186,11 @@ export async function POST(req: NextRequest) {
     });
     */
     return NextResponse.json(
-      { message: "Producto creado correctamente", status: true },
+      { 
+        producto: newProduct,
+        message: "Producto creado correctamente", 
+        status: true 
+      },
       { status: 200 }
     );
   } catch (error) {

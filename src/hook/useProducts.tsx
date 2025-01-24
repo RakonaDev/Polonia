@@ -10,25 +10,29 @@ type ProductProps = {
   url: string
   options?: AxiosRequestConfig
   immediate: true | false
-  setLoading: (loading: boolean) => void
-  setError: (error: boolean) => void
+  setLoading?: (loading: boolean) => void 
+  setError?: (error: boolean) => void
 }
 
 export default function useProducts<T = ProductResponse>({ url, options, immediate = true, setLoading, setError }: ProductProps) {
   const [products, setState] = useState<ProductDatabase[]>([]);
 
   const fetchData = useCallback(async () => {
-    setLoading(true)
+    if (setLoading) setLoading(true)
     try {
       const response = await axios(url, options);
       setState(response.data);
-      setLoading(false)
-      setError(false)
+      if(setLoading && setError) {
+        setLoading(false)
+        setError(false)
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         setState([]);
-        setLoading(false)
-        setError(true)
+        if(setLoading && setError) {
+          setLoading(false)
+          setError(true)
+        }
       }
     }
   }, [url, options]);
@@ -39,5 +43,5 @@ export default function useProducts<T = ProductResponse>({ url, options, immedia
     }
   }, [immediate]);
 
-  return { products, refetch: fetchData };
+  return { products, refetch: fetchData, setState };
 }
