@@ -203,7 +203,14 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const data = await req.json()
-    const id = data.id    
+    const id = data.id
+    const public_1 = data.public_1
+    const public_2 = data.public_2
+    const public_3 = data.public_3
+    
+    cloudinary.v2.uploader.destroy(public_1)
+    cloudinary.v2.uploader.destroy(public_2)
+    cloudinary.v2.uploader.destroy(public_3)
     
     if (!id) {
       return NextResponse.json({ message: "Faltan ID del producto" }, { status: 400 });

@@ -8,12 +8,11 @@ import { AxiosRequestConfig } from 'axios';
 import { ProductosColumn } from '@/components/utils/productos-column';
 import { apiUrl } from '@/helper/Global';
 
-
 const axiosOptions: AxiosRequestConfig = {
   method: 'GET'
 }
 
-export default function ProductosPage() {
+export default function ProductosPage () {
   const { setError, setLoading } = useFeatures()
   const { products, setState } = useProducts({
     setLoading,

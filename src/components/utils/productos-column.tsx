@@ -14,7 +14,10 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
     try{ 
       const response = await axios.delete(process.env.NEXT_PUBLIC_BACKEND_URL+ 'private/product', {
         data: {
-          id: product.ID_Document
+          id: product.ID_Document,
+          public_1 : product.url_images[0].public_id,
+          public_2 : product.url_images[1].public_id,
+          public_3 : product.url_images[2].public_id
         }
       })
       
