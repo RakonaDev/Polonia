@@ -3,7 +3,7 @@ import { JSX } from "react"
 import { CldImage } from 'next-cloudinary';
 import axios from "axios";
 import useProducts from "@/hook/useProducts";
-import { apiUrl } from "@/app/admin/productos/page";
+import { apiUrl } from "@/helper/Global";
 
 export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
   const { setState } = useProducts({

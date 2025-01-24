@@ -6,8 +6,8 @@ import useProducts from '@/hook/useProducts';
 import { useFeatures } from '@/zustand/useFeatures';
 import { AxiosRequestConfig } from 'axios';
 import { ProductosColumn } from '@/components/utils/productos-column';
+import { apiUrl } from '@/helper/Global';
 
-export const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL + 'private/product'
 
 const axiosOptions: AxiosRequestConfig = {
   method: 'GET'
