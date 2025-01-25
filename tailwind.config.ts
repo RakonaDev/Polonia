@@ -64,7 +64,8 @@ export default {
         'border': "#4a5568",
         'gris': '#616161',
         'contacto': '#303030',
-        'bg-form': '#E4E4E4'
+        'bg-form': '#E4E4E4',
+        edit: '#03619B'
       },
     },
   },

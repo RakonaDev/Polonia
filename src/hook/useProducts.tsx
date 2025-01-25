@@ -1,4 +1,6 @@
 import { ProductDatabase } from "@/backend/models/Product.modal";
+import { apiUrl } from "@/helper/Global";
+import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
@@ -14,34 +16,25 @@ type ProductProps = {
   setError?: (error: boolean) => void
 }
 
-export default function useProducts<T = ProductResponse>({ url, options, immediate = true, setLoading, setError }: ProductProps) {
-  const [products, setState] = useState<ProductDatabase[]>([]);
+const axiosOptions: AxiosRequestConfig = {
+  method: 'GET'
+}
 
-  const fetchData = useCallback(async () => {
-    if (setLoading) setLoading(true)
-    try {
-      const response = await axios(url, options);
-      setState(response.data);
-      if(setLoading && setError) {
-        setLoading(false)
-        setError(false)
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setState([]);
-        if(setLoading && setError) {
-          setLoading(false)
-          setError(true)
-        }
-      }
-    }
-  }, [url, options]);
-
-  useEffect(() => {
-    if (immediate) {
-      fetchData();
-    }
-  }, [immediate]);
-
-  return { products, refetch: fetchData, setState };
+export default function useProducts() {
+  
+  const { data: products, isLoading, isError, error, refetch } = useQuery<ProductDatabase[]>({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const response = await axios.get(apiUrl, axiosOptions);
+      return response.data;
+    },
+  })
+  
+  return {
+    products,
+    isLoading,
+    isError,
+    error,
+    refetch
+  }
 }

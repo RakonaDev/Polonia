@@ -4,6 +4,8 @@ import "./globals.css";
 import HeaderLayout from "@/layout/HeaderLayout";
 import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
 import { StrictMode } from "react";
+import QueryContext from "@/context/QueryContext";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,17 +27,20 @@ export default function RootLayout({
 }>) {
 
   return (
-    <StrictMode>
-      <ClerkProvider>
-        <html lang="en">
+
+    <html lang="en">
+      <QueryContext>
+        <ClerkProvider>
           <body
             className={`${inter.className} antialiased bg-white overflow-x-hidden relative`}
           >
             <HeaderLayout />
             {children}
           </body>
-        </html>
-      </ClerkProvider>
-    </StrictMode>
+          <ReactQueryDevtools initialIsOpen={true} />
+        </ClerkProvider>
+      </QueryContext>
+    </html>
+
   );
 }

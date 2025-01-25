@@ -1,30 +1,53 @@
 import { ProductDatabase } from "@/backend/models/Product.modal"
 import { JSX } from "react"
 import { CldImage } from 'next-cloudinary';
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import useProducts from "@/hook/useProducts";
 import { apiUrl } from "@/helper/Global";
+import Trash from '@/assets/icons/trash.svg'
+import Edit from '@/assets/icons/edit.svg'
+import Image from "next/image";
+import { useFeatures } from "@/zustand/useFeatures";
+import { useFeaturesAdmin } from "@/zustand/useFeaturesAdmin";
 
 export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
-  const { setState } = useProducts({
-    url: apiUrl,
-    immediate: false
-  })
-  const eliminarProducto = async () => {
+  const { products, refetch } = useProducts()
+  const { setLoadingMessage, setLoading, loading, error: Error, setError, setErrorMessage } = useFeatures()
+  const { setLoading: setLoadingAdmin, loadingMain: loadingMainAdmin } = useFeaturesAdmin()
+
+  const eliminarProducto = async (ID_Document?: string) => {
+    if (loadingMainAdmin.loading) return
     try{ 
+      setLoadingAdmin({
+        loading: true,
+        messageLoading: 'Eliminando producto...'
+      })
       const response = await axios.delete(process.env.NEXT_PUBLIC_BACKEND_URL+ 'private/product', {
         data: {
-          id: product.ID_Document,
+          id: ID_Document,
           public_1 : product.url_images[0].public_id,
           public_2 : product.url_images[1].public_id,
           public_3 : product.url_images[2].public_id
         }
       })
-      
+      .finally(() => setLoadingAdmin({
+        loading: false,
+        messageLoading: ''
+      }))
       console.log("Exitoso")
-      setState((prevState: ProductDatabase[]) => prevState.filter(product => product.ID_Document !== product.ID_Document))
+      if (response.status === 200 || response.data.status === 'ok') {
+        refetch()
+      }
     }
     catch (error) {
+      setLoadingAdmin({
+        loading: false,
+        messageLoading: ''
+      })
+      setError(!Error)
+      if (error instanceof AxiosError) {
+        setErrorMessage(error.message)
+      }
       console.log(error)
     }
   }
@@ -42,11 +65,20 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
       </td>
       <td className='text-center p-2'>
         <div className="flex flex-col gap-2 items-center">
-          <button className='px-3 py-2 rounded-xl text-lg bg-rojo text-white w-fit'>
-            Editar
+          <button 
+            type="button" 
+            title="Editar"
+            onClick={() => eliminarProducto(product.ID_Document)}
+            className='px-3 py-2 rounded-xl text-lg bg-rojo text-white w-fit'
+          >
+            <Image src={Trash} alt="trash" width={30} height={30} />
           </button>
-          <button className='px-3 py-2 rounded-xl text-lg bg-blue-500 text-white w-fit' onClick={eliminarProducto}>
-            Eliminar
+          <button 
+            type="button"
+            title="Eliminar"
+            className='px-3 py-2 rounded-xl text-lg bg-edit text-white w-fit' 
+          >
+            <Image src={Edit} alt="editar" width={30} height={30} />
           </button>
         </div>
       </td>

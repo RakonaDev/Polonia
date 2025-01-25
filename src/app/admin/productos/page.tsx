@@ -7,6 +7,8 @@ import { useFeatures } from '@/zustand/useFeatures';
 import { AxiosRequestConfig } from 'axios';
 import { ProductosColumn } from '@/components/utils/productos-column';
 import { apiUrl } from '@/helper/Global';
+import { useFeaturesAdmin } from '@/zustand/useFeaturesAdmin';
+import { ProductDatabase } from '@/backend/models/Product.modal';
 
 const axiosOptions: AxiosRequestConfig = {
   method: 'GET'
@@ -14,14 +16,9 @@ const axiosOptions: AxiosRequestConfig = {
 
 export default function ProductosPage () {
   const { setError, setLoading } = useFeatures()
-  const { products, setState } = useProducts({
-    setLoading,
-    setError,
-    url: apiUrl,
-    options: axiosOptions,
-    immediate: true
-  })
-  const { handleSubmit, handleChange,handleChangeTextarea, IDProducto, nombreProducto, precioProducto, categoriaProducto, proveedorProducto, stockProducto, descripcionProducto, imagenProducto } = useFormProducto(setState)
+  const { loadingMain } = useFeaturesAdmin()
+  const { products } = useProducts()
+  const { handleSubmit, handleChange,handleChangeTextarea, IDProducto, nombreProducto, precioProducto, categoriaProducto, proveedorProducto, stockProducto, descripcionProducto, imagenProducto } = useFormProducto(products)
   console.log(products)
   return (
     <main className="mt-6">
@@ -67,6 +64,7 @@ export default function ProductosPage () {
                   <input
                     type="number"
                     min={0}
+                    step={0.01}
                     placeholder="Precio del producto"
                     className='p-3 rounded-2xl'
                     onChange={handleChange}
@@ -134,7 +132,7 @@ export default function ProductosPage () {
               </div>
               <button 
                 type="submit" 
-                className='w-fit px-6 py-2 rounded-xl text-lg bg-rojo text-white'
+                className={`w-fit px-6 py-2 rounded-xl text-lg ${loadingMain.loading ? 'bg-gray-500' : 'bg-rojo'} duration-500 transition-colors text-white`}
               >
                 Crear
               </button>
@@ -159,9 +157,9 @@ export default function ProductosPage () {
           </thead>
           <tbody>
             {
-              products.map((product) => (
+              products?.map((product: ProductDatabase) => (
                 <ProductosColumn
-                  key={product.id}
+                  key={product.ID_Document}
                   ID_Document={product.ID_Document}
                   id={product.id}
                   name={product.name}

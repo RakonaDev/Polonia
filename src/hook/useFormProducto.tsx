@@ -4,9 +4,10 @@ import axios, { AxiosError } from "axios"
 import { useState } from "react"
 import Swal from 'sweetalert2'
 import { ProductDatabase } from "@/backend/models/Product.modal";
+import { useFeaturesAdmin } from "@/zustand/useFeaturesAdmin";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function useFormProducto(setState: any) {
+export default function useFormProducto(products?: ProductDatabase[]) {
   const [IDProducto, setIDProducto] = useState<string>('')
   const [nombreProducto, setNombreProducto] = useState<string>('')
   const [precioProducto, setPrecioProducto] = useState<number>(0)
@@ -15,9 +16,11 @@ export default function useFormProducto(setState: any) {
   const [stockProducto, setStockProducto] = useState<number>(0)
   const [descripcionProducto, setDescripcionProducto] = useState<string>('')
   const [imagenProducto, setImagenProducto] = useState<File[]>()
+  const {setLoading, loadingMain, setSuccess, setError} = useFeaturesAdmin()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (loadingMain.loading) return
     const formData = new FormData()
     formData.append('id', IDProducto)
     formData.append('nombre', nombreProducto)
@@ -33,26 +36,49 @@ export default function useFormProducto(setState: any) {
     }
   
     try{
+      setLoading({
+        loading: true,
+        messageLoading: 'Agregando nuevo producto...'
+      })
       const response = await axios.post(process.env.NEXT_PUBLIC_URL + 'api/private/product', formData, {
         method: 'POST'
       })
-      setState((prevState: ProductDatabase[]) => [...prevState, response.data.producto])
-      Swal.fire({
-        title: 'Producto creado',
-        text: 'El producto ha sido creado exitosamente',
-        icon: 'success',
-        confirmButtonText: 'Aceptar',
+      .finally(() => {
+        setLoading({
+          loading: false,
+          messageLoading: ''
+        })
       })
+      products?.push(response.data)
+      if (response.status === 200) {
+        setSuccess({
+          success: true,
+          messageSuccess: 'Producto agregado exitosamente'
+        })
+        setInterval(() => {
+          setSuccess({
+            success: false,
+            messageSuccess: ''
+          })
+        }, 3000)
+        setError({
+          error: false,
+          messageError: ''
+        })
+      }
     }
     catch(error){
       if (error instanceof AxiosError) {
-        Swal.fire({
-          title: 'Error',
-          text: error.response?.data.message,
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          backdrop: false,
+        setError({
+          error: true,
+          messageError: error.response?.data.message
         })
+        setInterval(() => {
+          setError({
+            error: false,
+            messageError: ''
+          })
+        }, 3000)
         console.log(error.message)
       }
       console.log(error)
