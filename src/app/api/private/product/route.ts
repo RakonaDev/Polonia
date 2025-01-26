@@ -58,6 +58,8 @@ export async function POST(req: NextRequest) {
     const descripcion = data.get("descripcion")?.toString();
     const images = data.getAll("imagenes"); 
 
+    if(id === undefined || supplier === undefined || nombre === undefined) throw new Error('Deben que estas los parametros básicos')
+
     if (images.length === 0) {
       throw new Error("No se encontraron imágenes para subir.");
     }
@@ -228,6 +230,7 @@ export async function PATCH(req: NextRequest) {
         secure_url: response3.secure_url,
       }
     ]
+    if(id === undefined || supplier === undefined || nombre === undefined) throw new Error('Deben que estas los parametros básicos')
 
     const productRef = await updateProduct(ID_Document, {
       id,
