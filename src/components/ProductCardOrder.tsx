@@ -7,6 +7,7 @@ import Minus from '@/assets/icons/caret-down.svg'
 import Plus from '@/assets/icons/caret-up.svg'
 import { useCart } from "@/zustand/useCart"
 import React from "react"
+import { CldImage } from "next-cloudinary"
 
 export function ProductCardOrder(item: DetailOrder) {
   const [quantity, setQuantity] = React.useState<number>(item.quantity)
@@ -23,7 +24,7 @@ export function ProductCardOrder(item: DetailOrder) {
   return (
     <div className="flex gap-4 w-full">
       <div className="w-48 h-52 p-3 bg-white grid place-items-center">
-        <Image 
+        <CldImage 
           src={item.secure_url}
           alt="product"
           width={125}
@@ -32,9 +33,9 @@ export function ProductCardOrder(item: DetailOrder) {
         />
       </div>
       <div className="flex-grow max-w-96">
-        <h1 className="overflow-hidden" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.title}</h1>
-        <p className="text-sm text-gris">{item.id}</p>
-        <p className="text-sm text-gris">{item.supplier}</p>
+        <h1 className="overflow-hidden" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.title.toUpperCase()}</h1>
+        <p className="text-sm text-gris">{item.id.toUpperCase()}</p>
+        <p className="text-sm text-gris">{item.supplier.toUpperCase()}</p>
         <div className="bg-white p-2 w-fit mt-5 rounded-lg">
           <div className="font-medium flex items-center">
             <span>CANT </span>
