@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image"
-import { Product } from "./Product.modal"
 
 export interface DetailOrder {
   id: string

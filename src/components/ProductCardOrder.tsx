@@ -24,7 +24,7 @@ export function ProductCardOrder(item: DetailOrder) {
     <div className="flex gap-4 w-full">
       <div className="w-48 h-52 p-3 bg-white grid place-items-center">
         <Image 
-          src={item.url}
+          src={item.secure_url}
           alt="product"
           width={125}
           height={125}
