@@ -17,7 +17,8 @@ const Routes = [
   '/',
   '/nosotros',
   '/contacto',
-  '/pago'
+  '/pago',
+  '/producto',
 ]
 
 export default function HeaderLayout() {

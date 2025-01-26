@@ -20,6 +20,7 @@ export default {
     extend: {
       gridTemplateColumns: {
         inputs: "repeat(auto-fit, minmax(200px, 1fr))",
+        product:  "repeat(auto-fit, minmax(256px, 1fr))"
       },
       animation: {
         scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",

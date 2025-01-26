@@ -19,13 +19,13 @@ export interface Product {
 
 export interface ProductDatabase {
   ID_Document?: string
-  id?: string
-  name?: string
-  price?: number
+  id: string
+  name: string
+  price: number
   url_images: ImageUrl[]
   description?: string
   category?: string
-  supplier?: string
+  supplier: string
   stock?: number
   createdAt?: string
   updatedAt?: string

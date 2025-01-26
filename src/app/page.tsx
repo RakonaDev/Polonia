@@ -7,9 +7,12 @@ import Item3 from '../assets/layouts/item3.png'
 import Item4 from '../assets/layouts/item4.png'
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import useProducts from "@/hook/useProducts";
+import { ProductDatabase } from "@/backend/models/Product.modal";
 /* "S/. 20 Uni - S/ 15 3 Uni. a más" */
 export default function InicioPage() {
   const { user } = useUser()
+  const { products } = useProducts()
   /*
   console.log({
     projectId: process.env.AUTH_FIREBASE_PROJECT_ID,
@@ -17,7 +20,6 @@ export default function InicioPage() {
     privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
   })
   */
-  console.log(user)
 
   return (
     <>
@@ -27,8 +29,9 @@ export default function InicioPage() {
           <header className='mt-12'>
             <Image src={BannerInicio} alt="banner" className='w-full h-auto' width={1280} height={341} />
           </header>
-          <section className='w-full h-auto flex gap-4 mt-16 py-10 justify-between'>
-            <ProductCard
+          <section className='w-full h-auto grid grid-cols-product gap-10 mt-16 py-10'>
+            {/*
+              <ProductCard
               image={[
                 { url: Item1 },
               ]}
@@ -61,7 +64,19 @@ export default function InicioPage() {
               id="IM - 11031"
               supplier='MARILIA'
               price={20}
-            />
+            /> */}
+            {
+              products?.map((product: ProductDatabase) => (
+                <ProductCard
+                  key={product.ID_Document}
+                  url_images={product.url_images}
+                  name={product.name}
+                  id={product.id}
+                  supplier={product.supplier}
+                  price={product.price}
+                />
+              ))
+            }
           </section>
         </div>
       </main>

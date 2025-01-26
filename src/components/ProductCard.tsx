@@ -5,9 +5,10 @@ import IconProduct from "../assets/components/iconProduct.svg"
 import Cancel from "../assets/components/cancel.svg"
 
 import { useCart } from "@/zustand/useCart"
-import Image, { StaticImageData } from "next/image"
+import Image from "next/image"
 import { Inter } from "next/font/google"
-import { Product } from "@/backend/models/Product.modal"
+import { Product, ProductDatabase } from "@/backend/models/Product.modal"
+import { CldImage } from "next-cloudinary"
 
 /*
 interface ProductCardProps {
@@ -26,8 +27,8 @@ const inter = Inter({
 
 type product = Pick<Product, 'id' | 'name' | 'price' | 'supplier'>
 
-export const ProductCard : React.FunctionComponent<Product> = ({ image , name, id, price, supplier }) => {
-  const { url } = image[0]
+export const ProductCard = ({ url_images , name, id, price, supplier }: ProductDatabase) => {
+  const { public_id, secure_url } = url_images[0]
 
   const[quantity, setQuantity] = React.useState<number>(1)
   const[isAdded, setIsAdded] = React.useState<boolean>(false)
@@ -61,28 +62,28 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
     setQuantity(quantity - 1)
   }
 
-  const handleCart = ( id : string, title: string, unit_price: number  , quantity: number, url : StaticImageData, currency_id: string = "PEN" , supplier: string) : void => {
+  const handleCart = ( id : string, title: string, unit_price: number  , quantity: number, secure_url : string, currency_id: string = "PEN" , supplier: string) : void => {
     if (isAdded) {
       removeFromCart(id)
       setIsAdded(false)
     } else {
       const subTotal = quantity * unit_price
-      console.log({ id, title, unit_price, quantity, subTotal, url, supplier, currency_id })
-      addToCart({ id, title, unit_price, quantity, subTotal, url, supplier, currency_id })
+      console.log({ id, title, unit_price, quantity, subTotal, secure_url, supplier, currency_id })
+      addToCart({ id, title, unit_price, quantity, subTotal, secure_url, supplier, currency_id })
       setIsAdded(true)
     }
   }
 
   return (
     <>
-      <div className={`w-64 h-auto rounded-lg ${inter.className}`} data-os="fade-up">
+      <div className={`w-64 h-auto rounded-lg ${inter.className} mx-auto`} data-os="fade-up">
         <div className="bg-backProduct w-full h-[215px] flex justify-center items-center">
-          <Image src={url} alt="product" className="mx-auto" />
+          <CldImage src={public_id} alt="product" className="mx-auto" width={170} height={100} />
         </div>
         <div className='flex flex-col gap-2 w-full pt-3'>
-          <p className='text-md font-medium w-full h-20'>{ name }</p>
-          <p className="text-textProduct">{ id }</p>
-          <p className="text-textProduct">{ supplier }</p>
+          <p className='text-md font-medium w-full h-20'>{ name.toUpperCase() }</p>
+          <p className="text-textProduct">{ id.toUpperCase() }</p>
+          <p className="text-textProduct">{ supplier.toUpperCase() }</p>
           <p className='text-md'>{"S/. "+ price + " Uni. - S/. 15 3 Uni. a más" }</p> 
         </div>
         <div className="flex w-full mt-4 gap-5">
@@ -110,7 +111,7 @@ export const ProductCard : React.FunctionComponent<Product> = ({ image , name, i
           <button 
             type="button" 
             className="bg-rojo w-12 h-10 flex justify-center items-center rounded-md"
-            onClick={() => handleCart(product.id, product.name, product.price ,quantity, url, "PEN", product.supplier )} 
+            onClick={() => handleCart(product.id, product.name, product.price ,quantity, secure_url , "PEN", product.supplier )} 
             title="Eliminar de la cesta"
           >
             <Image src={isAdded ? Cancel : IconProduct} alt="iconProduct" className="w-7 h-7" />

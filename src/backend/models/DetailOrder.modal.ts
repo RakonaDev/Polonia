@@ -6,7 +6,7 @@ export interface DetailOrder {
   title: string,
   unit_price: number,
   supplier: string,
-  url: StaticImageData
+  secure_url: string
   quantity: number
   currency_id: string
   subTotal: number
