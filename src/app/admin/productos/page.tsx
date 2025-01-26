@@ -15,10 +15,9 @@ const axiosOptions: AxiosRequestConfig = {
 }
 
 export default function ProductosPage () {
-  const { setError, setLoading } = useFeatures()
   const { loadingMain } = useFeaturesAdmin()
   const { products } = useProducts()
-  const { handleSubmit, handleChange,handleChangeTextarea, IDProducto, nombreProducto, precioProducto, categoriaProducto, proveedorProducto, stockProducto, descripcionProducto, imagenProducto } = useFormProducto(products)
+  const { handleSubmit, handleChange,handleChangeTextarea, IDProducto, nombreProducto, precioProducto, categoriaProducto, proveedorProducto, stockProducto, descripcionProducto, imagenProducto } = useFormProducto()
   console.log(products)
   return (
     <main className="mt-6">
@@ -108,6 +107,7 @@ export default function ProductosPage () {
                 <div>
                   <input
                     type="file"
+                    id='imagenes'
                     placeholder="Ingrese sus imagenes (Máximo 3 fotos)" accept="image/png, image/jpeg, image/jpg"
                     className='p-3 rounded-2xl'
                     onChange={handleChange}

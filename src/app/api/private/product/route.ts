@@ -56,38 +56,12 @@ export async function POST(req: NextRequest) {
     const supplier = data.get("supplier")?.toString().toLowerCase();
     const stock = data.get("stock")?.toString();
     const descripcion = data.get("descripcion")?.toString();
-    const imagen1: FormDataEntryValue | File | null = data.get("imagen1");
-    const imagen2: FormDataEntryValue | File | null = data.get("imagen2");
-    const imagen3: FormDataEntryValue | File | null = data.get("imagen3");
-    console.log(imagen1, imagen2, imagen3)
-    console.log(path)
-    if (imagen1 == null || imagen2 == null || imagen3 == null) {
-      console.log("Faltan imagenes!!")
-      /* return NextResponse.json({ message: "Faltan Imagenes" }, { status: 400 }); */
-      throw new Error("Faltan imagenes!!")
+    const images = data.getAll("imagenes"); 
+
+    if (images.length === 0) {
+      throw new Error("No se encontraron imágenes para subir.");
     }
-
-    const imagenParseada1 = imagen1 as File
-    const imagenParseada2 = imagen2 as File
-    const imagenParseada3 = imagen3 as File
-    /*
-    const pathFile1 = path.join(root, "", imagenParseada1.name)
-    const pathFile2 = path.join(root, "", imagenParseada2.name)
-    const pathFile3 = path.join(root, "", imagenParseada3.name)
-
-    const bytes1 = await imagenParseada1.arrayBuffer()
-    const bytes2 = await imagenParseada2.arrayBuffer()
-    const bytes3 = await imagenParseada3.arrayBuffer()
-
-    const buffer1 = Buffer.from(bytes1)
-    const buffer2 = Buffer.from(bytes2)
-    const buffer3 = Buffer.from(bytes3)
-    
-    await writeFile(pathFile1, buffer1)
-    await writeFile(pathFile2, buffer2)
-    await writeFile(pathFile3, buffer3)
-    */
-
+    // Funcion dinamica para el grupo de imágenes
     const uploadToCloudinary = async (file: File) => {
       const buffer = Buffer.from(await file.arrayBuffer());
       const base64Image = `data:${file.type};base64,${buffer.toString("base64")}`;
@@ -97,55 +71,12 @@ export async function POST(req: NextRequest) {
         transformation: { height: 210, crop: "scale" },
       });
     };
-
-    const response1 = await uploadToCloudinary(imagenParseada1);
-    const response2 = await uploadToCloudinary(imagenParseada2);
-    const response3 = await uploadToCloudinary(imagenParseada3);
-    const url_images = [
-      { public_id: response1.public_id, secure_url: response1.secure_url },
-      { public_id: response2.public_id, secure_url: response2.secure_url },
-      { public_id: response3.public_id, secure_url: response3.secure_url },
-    ];
-    /*
-    const response1 = await cloudinary.uploader.upload(pathFile1, {
-      folder: 'Polonia',
-      transformation: {
-        height: 210,
-        crop: 'scale',
-      }
-    });
-
-    const response2 = await cloudinary.uploader.upload(pathFile2, {
-      folder: 'Polonia',
-      transformation: {
-        height: 210,
-        crop: 'scale',
-      }
-    });
-
-    const response3 = await cloudinary.uploader.upload(pathFile3, {
-      folder: 'Polonia',
-      transformation: {
-        height: 210,
-        crop: 'scale',
-      }
-    })
-
-    const url_images = [
-      {
-        public_id: response1.public_id,
-        secure_url: response1.secure_url,
-      },
-      {
-        public_id: response2.public_id,
-        secure_url: response2.secure_url,
-      },
-      {
-        public_id: response3.public_id,
-        secure_url: response3.secure_url,
-      }
-    ]
-    */
+    const uploadPromises = images.map((image) => uploadToCloudinary(image as File));
+    const responses = await Promise.all(uploadPromises);
+    const url_images = responses.map((response) => ({
+      public_id: response.public_id,
+      secure_url: response.secure_url,
+    }));
 
     const productRef = await saveProduct({
       id,
@@ -163,7 +94,7 @@ export async function POST(req: NextRequest) {
       ID_Document: productRef.id,
       id,
       name: nombre,
-      price: Number(precio),
+      price: Number(precio) * 100,
       url_images,
       category: categoria,
       description: descripcion,
@@ -173,18 +104,6 @@ export async function POST(req: NextRequest) {
       updatedAt: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
     }
     
-    // Eliminar archivos
-    /*
-    fs.unlink(pathFile1, (err) => {
-      if (err) throw err;
-    });
-    fs.unlink(pathFile2, (err) => {
-      if (err) throw err;
-    });
-    fs.unlink(pathFile3, (err) => {
-      if (err) throw err;
-    });
-    */
     return NextResponse.json(
       { 
         producto: newProduct,
@@ -195,7 +114,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ message: error }, { status: 404 });
+    return NextResponse.json({ message: 'Algo salió mal' }, { status: 404 });
   }
 }
 
@@ -204,13 +123,11 @@ export async function DELETE(req: NextRequest) {
   try {
     const data = await req.json()
     const id = data.id
-    const public_1 = data.public_1
-    const public_2 = data.public_2
-    const public_3 = data.public_3
-    
-    cloudinary.v2.uploader.destroy(public_1)
-    cloudinary.v2.uploader.destroy(public_2)
-    cloudinary.v2.uploader.destroy(public_3)
+    const url_publics = data.url_publics
+
+    url_publics.map((public_id: string) => {
+      cloudinary.v2.uploader.destroy(public_id)
+    })
     
     if (!id) {
       return NextResponse.json({ message: "Faltan ID del producto" }, { status: 400 });

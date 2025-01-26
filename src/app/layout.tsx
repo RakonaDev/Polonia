@@ -29,17 +29,17 @@ export default function RootLayout({
   return (
 
     <html lang="en">
-      <QueryContext>
-        <ClerkProvider>
-          <body
-            className={`${inter.className} antialiased bg-white overflow-x-hidden relative`}
-          >
+      <body
+        className={`${inter.className} antialiased bg-white overflow-x-hidden relative`}
+      >
+        <QueryContext>
+          <ClerkProvider>
             <HeaderLayout />
             {children}
-          </body>
-          <ReactQueryDevtools initialIsOpen={true} />
-        </ClerkProvider>
-      </QueryContext>
+            <ReactQueryDevtools initialIsOpen={true} />
+          </ClerkProvider>
+        </QueryContext>
+      </body>
     </html>
 
   );

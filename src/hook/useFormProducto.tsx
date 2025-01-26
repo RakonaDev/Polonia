@@ -5,9 +5,9 @@ import { useState } from "react"
 import Swal from 'sweetalert2'
 import { ProductDatabase } from "@/backend/models/Product.modal";
 import { useFeaturesAdmin } from "@/zustand/useFeaturesAdmin";
+import useProducts from "./useProducts";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function useFormProducto(products?: ProductDatabase[]) {
+export default function useFormProducto() {
   const [IDProducto, setIDProducto] = useState<string>('')
   const [nombreProducto, setNombreProducto] = useState<string>('')
   const [precioProducto, setPrecioProducto] = useState<number>(0)
@@ -16,7 +16,8 @@ export default function useFormProducto(products?: ProductDatabase[]) {
   const [stockProducto, setStockProducto] = useState<number>(0)
   const [descripcionProducto, setDescripcionProducto] = useState<string>('')
   const [imagenProducto, setImagenProducto] = useState<File[]>()
-  const {setLoading, loadingMain, setSuccess, setError} = useFeaturesAdmin()
+  const { setLoading, loadingMain, setSuccess, setError } = useFeaturesAdmin()
+  const { products, mutate } = useProducts()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,45 +30,27 @@ export default function useFormProducto(products?: ProductDatabase[]) {
     formData.append('supplier', proveedorProducto)
     formData.append('stock', stockProducto?.toString())
     formData.append('descripcion', descripcionProducto)
+    const INPUT_FILES = document.getElementById('imagenes') as HTMLInputElement;
+    const files = INPUT_FILES.files;
+    if (files === null) return
+    for (const file of files) {
+      formData.append("imagenes", file); // Usa el mismo campo "imagenes"
+    }
+    /*
     if (imagenProducto) {
       formData.append('imagen1', imagenProducto[0])
       formData.append('imagen2', imagenProducto[1])
       formData.append('imagen3', imagenProducto[2])
     }
-  
-    try{
+    */
+    try {
       setLoading({
         loading: true,
         messageLoading: 'Agregando nuevo producto...'
       })
-      const response = await axios.post(process.env.NEXT_PUBLIC_URL + 'api/private/product', formData, {
-        method: 'POST'
-      })
-      .finally(() => {
-        setLoading({
-          loading: false,
-          messageLoading: ''
-        })
-      })
-      products?.push(response.data)
-      if (response.status === 200) {
-        setSuccess({
-          success: true,
-          messageSuccess: 'Producto agregado exitosamente'
-        })
-        setInterval(() => {
-          setSuccess({
-            success: false,
-            messageSuccess: ''
-          })
-        }, 3000)
-        setError({
-          error: false,
-          messageError: ''
-        })
-      }
+      mutate(formData)
     }
-    catch(error){
+    catch (error) {
       if (error instanceof AxiosError) {
         setError({
           error: true,
@@ -81,6 +64,17 @@ export default function useFormProducto(products?: ProductDatabase[]) {
         }, 3000)
         console.log(error.message)
       }
+
+      setError({
+        error: true,
+        messageError: 'Algo salió mal...'
+      })
+      setInterval(() => {
+        setError({
+          error: false,
+          messageError: ''
+        })
+      }, 3000)
       console.log(error)
     }
   }

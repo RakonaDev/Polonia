@@ -11,9 +11,9 @@ import { useFeatures } from "@/zustand/useFeatures";
 import { useFeaturesAdmin } from "@/zustand/useFeaturesAdmin";
 
 export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
-  const { products, refetch } = useProducts()
-  const { setLoadingMessage, setLoading, loading, error: Error, setError, setErrorMessage } = useFeatures()
-  const { setLoading: setLoadingAdmin, loadingMain: loadingMainAdmin } = useFeaturesAdmin()
+  const { refetch } = useProducts()
+  const { error: Error, setError, setErrorMessage } = useFeatures()
+  const { setLoading: setLoadingAdmin, loadingMain: loadingMainAdmin, setSuccess } = useFeaturesAdmin()
 
   const eliminarProducto = async (ID_Document?: string) => {
     if (loadingMainAdmin.loading) return
@@ -22,12 +22,14 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
         loading: true,
         messageLoading: 'Eliminando producto...'
       })
+      const url_publics: string[] = []
+      product.url_images.map((image) => {
+        url_publics.push(image.public_id)
+      })
       const response = await axios.delete(process.env.NEXT_PUBLIC_BACKEND_URL+ 'private/product', {
         data: {
           id: ID_Document,
-          public_1 : product.url_images[0].public_id,
-          public_2 : product.url_images[1].public_id,
-          public_3 : product.url_images[2].public_id
+          url_publics
         }
       })
       .finally(() => setLoadingAdmin({
@@ -37,6 +39,16 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
       console.log("Exitoso")
       if (response.status === 200 || response.data.status === 'ok') {
         refetch()
+        setSuccess({
+          success: true,
+          messageSuccess: 'Producto eliminado exitosamente'
+        })
+        setInterval(() => {
+          setSuccess({
+            success: false,
+            messageSuccess: ''
+          })
+        }, 3000)
       }
     }
     catch (error) {
@@ -52,7 +64,7 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
     }
   }
   return (
-    <tr key={product.ID_Document}>
+    <tr key={product.id}>
       <td className='text-center p-2'>{product.id}</td>
       <td className='text-center p-2'>{product.name}</td>
       <td className='text-center p-2'>{product.price}</td>

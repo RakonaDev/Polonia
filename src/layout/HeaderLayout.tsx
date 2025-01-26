@@ -9,9 +9,9 @@ import Polonia from '@/assets/Polonia.svg'
 import { AnimatePresence } from 'framer-motion'
 import { useFeaturesAdmin } from '@/zustand/useFeaturesAdmin'
 import Loading from '@/assets/icons/loading.svg'
-import { useQuery } from '@tanstack/react-query'
 import useProducts from '@/hook/useProducts'
 import Success from '@/assets/icons/success.svg'
+import Error from '@/assets/icons/error.svg'
 
 const Routes = [
   '/',
@@ -21,7 +21,7 @@ const Routes = [
 ]
 
 export default function HeaderLayout() {
-  const { loadingMain, successMain } = useFeaturesAdmin()
+  const { loadingMain, successMain, errorMain } = useFeaturesAdmin()
   const pathname = usePathname()
   const { loading } = useFeatures()
   const { isLoading: LoadingProducts } = useProducts()
@@ -44,13 +44,13 @@ export default function HeaderLayout() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className='flex gap-5 items-center z-[10000] bg-blue-400 max-w-xl w-full rounded-2xl p-4 absolute top-7 left-1/2 -translate-x-1/2 text-black'
+              className='flex gap-5 items-center z-[10000] bg-blue-400 max-w-xl w-full rounded-2xl p-4 fixed top-7 left-1/2 -translate-x-1/2 text-black'
             >
               <div>
                 <Image src={Loading} alt='Loading' width={50} height={50} priority className='animate-spin' />
               </div>
               <div>
-                <h1 className='text-center font-bold text-xl'>
+                <h1 className='font-bold text-xl'>
                   Está cargando tu petición al Servidor
                 </h1>
                 {loadingMain.messageLoading}
@@ -66,16 +66,38 @@ export default function HeaderLayout() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className='flex gap-5 items-center z-[10000] bg-green-400 max-w-xl w-full rounded-2xl p-4 absolute top-7 left-1/2 -translate-x-1/2 text-black'
+              className='flex gap-5 items-center z-[10000] bg-green-400 max-w-xl w-full rounded-2xl p-4 fixed top-7 left-1/2 -translate-x-1/2 text-black'
             >
               <div>
-                <Image src={Success} alt='Success' width={50} height={50} priority className='animate-spin' />
+                <Image src={Success} alt='Success' width={50} height={50} priority />
               </div>
               <div>
-                <h1 className='text-center font-bold text-xl'>
+                <h1 className='font-bold text-xl'>
                   Tu petición ha sido exitosa
                 </h1>
                 {successMain.messageSuccess}
+              </div>
+            </motion.div>
+            :
+            null
+        }
+        {
+          errorMain.error ?
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className='flex gap-5 items-center z-[10000] bg-red-400 max-w-xl w-full rounded-2xl p-4 fixed top-7 left-1/2 -translate-x-1/2 text-black'
+            >
+              <div>
+                <Image src={Error} alt='Error' width={50} height={50} priority />
+              </div>
+              <div>
+                <h1 className='font-bold text-xl'>
+                  Error
+                </h1>
+                {errorMain.messageError}
               </div>
             </motion.div>
             :
