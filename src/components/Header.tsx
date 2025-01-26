@@ -114,7 +114,7 @@ export function Header() {
                 Contacto
               </Link>
             </nav>
-            <a href="#" className="bg-black text-white rounded-xl py-2 px-6 h-fit flex gap-3">
+            <a href="/CATÁLOGO_POLONIA_2025.pdf" target="_blank" className="bg-black text-white rounded-xl py-2 px-6 h-fit flex gap-3">
               <Image src={Download} alt="download" className="h-5 my-auto" height={20} width={25}/> <span>Catálogo</span>
             </a>
           </div>
