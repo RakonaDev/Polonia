@@ -84,7 +84,7 @@ export const ProductCard = ({ url_images , name, id, price, supplier }: ProductD
           <p className='text-md font-medium w-full h-20'>{ name.toUpperCase() }</p>
           <p className="text-textProduct">{ id.toUpperCase() }</p>
           <p className="text-textProduct">{ supplier.toUpperCase() }</p>
-          <p className='text-md'>{"S/. "+ price + " Uni. - S/. 15 3 Uni. a más" }</p> 
+          <p className='text-md'>{"S/. "+ price + " Uni." }</p> 
         </div>
         <div className="flex w-full mt-4 gap-5">
           <div className={`flex-grow flex ${isAdded ? 'bg-gray-500' : 'bg-rojo'} rounded-xl text-white transition-colors duration-500`}>

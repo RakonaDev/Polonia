@@ -6,6 +6,7 @@ import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
 import { StrictMode } from "react";
 import QueryContext from "@/context/QueryContext";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import FooterLayout from "@/layout/FooterLayout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,6 +39,7 @@ export default function RootLayout({
             {children}
             <ReactQueryDevtools initialIsOpen={true} />
           </ClerkProvider>
+          <FooterLayout />
         </QueryContext>
       </body>
     </html>

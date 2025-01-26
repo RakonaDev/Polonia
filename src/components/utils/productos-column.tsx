@@ -3,7 +3,6 @@ import { JSX } from "react"
 import { CldImage } from 'next-cloudinary';
 import axios, { AxiosError } from "axios";
 import useProducts from "@/hook/useProducts";
-import { apiUrl } from "@/helper/Global";
 import Trash from '@/assets/icons/trash.svg'
 import Edit from '@/assets/icons/edit.svg'
 import Image from "next/image";

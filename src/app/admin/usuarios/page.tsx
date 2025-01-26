@@ -1,11 +1,10 @@
 'use client'
 import UsuariosColumn from '@/components/utils/usuarios-column'
+import { apiUrl } from '@/helper/Global'
 import useUsers from '@/hook/useUsers'
 import { useFeatures } from '@/zustand/useFeatures'
 import { AxiosRequestConfig } from 'axios'
 import React from 'react'
-
-const apiURL = process.env.NEXT_PUBLIC_URL + 'api/private/user'
 
 const axiosOptions: AxiosRequestConfig = {
   method: 'GET'
@@ -14,7 +13,7 @@ const axiosOptions: AxiosRequestConfig = {
 export default function UsuariosPage() {
   const { setError, setLoading } = useFeatures()
 
-  const { data } = useUsers({ setLoading, setError, url: apiURL, options: axiosOptions, immediate: true })
+  const { data } = useUsers({ setLoading, setError, url: apiUrl + 'private/user', options: axiosOptions, immediate: true })
   console.log(data)
   return (
     <main className="mt-6">

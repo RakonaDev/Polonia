@@ -18,7 +18,7 @@ export default function useProducts() {
   const { data: products, isLoading, isError, error, refetch } = useQuery<ProductDatabase[]>({
     queryKey: ['products'],
     queryFn: async () => {
-      const response = await axios.get(apiUrl, axiosOptions);
+      const response = await axios.get(apiUrl + 'public/producto', axiosOptions);
       return response.data;
     },
     refetchOnWindowFocus: false,
@@ -27,7 +27,7 @@ export default function useProducts() {
   /* Add new product */
   const { mutate } = useMutation({
     mutationFn: async (newProduct: any) => {
-      const response = await axios.post(apiUrl, newProduct, {
+      const response = await axios.post(apiUrl + 'private/product', newProduct, {
         method: 'POST'
       })
       return response.data.producto

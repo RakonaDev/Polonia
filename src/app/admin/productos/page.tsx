@@ -3,10 +3,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import useFormProducto from '@/hook/useFormProducto'
 import React from 'react'
 import useProducts from '@/hook/useProducts';
-import { useFeatures } from '@/zustand/useFeatures';
 import { AxiosRequestConfig } from 'axios';
 import { ProductosColumn } from '@/components/utils/productos-column';
-import { apiUrl } from '@/helper/Global';
 import { useFeaturesAdmin } from '@/zustand/useFeaturesAdmin';
 import { ProductDatabase } from '@/backend/models/Product.modal';
 
