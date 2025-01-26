@@ -50,7 +50,7 @@ export function SheetCart() {
               cart.length > 0 ? cart.map((item, index) => {
                 return (
                   <ProductCardOrder 
-                    url={item.url}
+                    secure_url={item.secure_url}
                     key={index}
                     id={item.id}
                     currency_id="PEN"
