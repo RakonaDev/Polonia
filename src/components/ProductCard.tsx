@@ -83,7 +83,7 @@ export const ProductCard = ({ url_images , name, id, price, supplier }: ProductD
           <CldImage src={public_id} alt="product" className="mx-auto hover:scale-125 transition-all duration-500" width={170} height={100} quality={100}  />
         </Link>
         <div className='flex flex-col gap-2 w-full pt-3'>
-          <Link href={`/producto/${encodeURIComponent(product.name.toLowerCase())}`} className='text-md font-medium w-full h-20 hover:underline hover:underline-offset-2'>{ name.toUpperCase() }</Link>
+          <Link href={`/producto/${encodeURIComponent(product.name.toLowerCase())}`} className='text-md font-medium w-full h-20 hover:underline hover:underline-offset-2 '>{ name.toUpperCase() }</Link>
           <p className="text-textProduct">{ id.toUpperCase() }</p>
           <p className="text-textProduct">{ supplier.toUpperCase() }</p>
           <p className='text-md'>{"S/. "+ price.toFixed(2) + " x Uni." }</p> 

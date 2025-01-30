@@ -13,7 +13,7 @@ import { MdDiscount } from "react-icons/md";
 import { MdSupportAgent } from "react-icons/md";
 
 export default async function Page({ params }: { params: { name: string } }) {
-  const { name } = await params
+  const { name } = params
   if (!params?.name) return <div>Producto no encontrado</div>;
   const nombre = decodeURIComponent(name.replace(/-/g, " ").toLowerCase());
   // const name = deslugify(params.name as string
