@@ -42,7 +42,7 @@ export default function useProducts () {
 
   /* Add new product */
   const { mutate } = useMutation({
-    mutationFn: async (newProduct: ProductDatabase) => {
+    mutationFn: async (newProduct: FormData) => {
       const response = await axios.post(apiUrl + 'private/product', newProduct, {
         method: 'POST'
       })
