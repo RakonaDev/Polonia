@@ -19,11 +19,16 @@ interface PageProps {
 export async function generateStaticParams() {
   return [{ name: "ejemplo" }, { name: "otro-producto" }];
 }
+export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 
-export default async function Page({ params }: PageProps) {
-  const { name } = params
-  if (!params?.name) return <div>Producto no encontrado</div>;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ name: string }>
+}) {
+  const name = (await params).name
+  if (!name) return <div>Producto no encontrado</div>;
   const nombre = decodeURIComponent(name.replace(/-/g, " ").toLowerCase());
   // const name = deslugify(params.name as string
   const q = query(
