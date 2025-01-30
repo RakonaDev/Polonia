@@ -22,7 +22,7 @@ export interface ProductDatabase {
   id: string
   name: string
   price: number
-  url_images: ImageUrl[]
+  url_images?: ImageUrl[]
   description?: string
   category?: string
   supplier: string
@@ -31,7 +31,7 @@ export interface ProductDatabase {
   updatedAt?: string
 }
 
-interface ImageUrl {
+export interface ImageUrl {
   public_id: string
   secure_url: string
 }

@@ -3,14 +3,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import useFormProducto from '@/hook/useFormProducto'
 import React from 'react'
 import useProducts from '@/hook/useProducts';
-import { AxiosRequestConfig } from 'axios';
 import { ProductosColumn } from '@/components/utils/productos-column';
 import { useFeaturesAdmin } from '@/zustand/useFeaturesAdmin';
 import { ProductDatabase } from '@/backend/models/Product.modal';
-
-const axiosOptions: AxiosRequestConfig = {
-  method: 'GET'
-}
 
 export default function ProductosPage () {
   const { loadingMain } = useFeaturesAdmin()

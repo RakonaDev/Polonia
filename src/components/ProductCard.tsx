@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react"
+import React, { useState } from "react"
 import IconProduct from "../assets/components/iconProduct.svg"
 import Cancel from "../assets/components/cancel.svg"
 
@@ -9,6 +9,8 @@ import Image from "next/image"
 import { Inter } from "next/font/google"
 import { Product, ProductDatabase } from "@/backend/models/Product.modal"
 import { CldImage } from "next-cloudinary"
+import Link from "next/link"
+import { slugify } from "@/lib/utils"
 
 /*
 interface ProductCardProps {
@@ -28,17 +30,16 @@ const inter = Inter({
 type product = Pick<Product, 'id' | 'name' | 'price' | 'supplier'>
 
 export const ProductCard = ({ url_images , name, id, price, supplier }: ProductDatabase) => {
-  const { public_id, secure_url } = url_images[0]
 
-  const[quantity, setQuantity] = React.useState<number>(1)
-  const[isAdded, setIsAdded] = React.useState<boolean>(false)
-  const[product] = React.useState<product>({
+  const[quantity, setQuantity] = useState<number>(1)
+  const[isAdded, setIsAdded] = useState<boolean>(false)
+  const[product] = useState<product>({
     id,
     name,
     price,
     supplier,
   })
-
+  
   const { cart, addToCart, removeFromCart, searchFromCart } = useCart();
   const productUsed = cart.find((item) => item.id === id)
   React.useEffect(() => {
@@ -73,18 +74,19 @@ export const ProductCard = ({ url_images , name, id, price, supplier }: ProductD
       setIsAdded(true)
     }
   }
-
+  if (!url_images) return null
+  const { public_id, secure_url } = url_images[0]
   return (
     <>
-      <div className={`w-64 h-auto rounded-lg ${inter.className} mx-auto`} data-os="fade-up">
-        <div className="bg-backProduct w-full h-[215px] flex justify-center items-center">
-          <CldImage src={public_id} alt="product" className="mx-auto" width={170} height={100} />
-        </div>
+      <div className={`w-64 h-auto rounded-lg ${inter.className} mx-auto`}>
+        <Link href={`/producto/${encodeURIComponent(product.name.toLowerCase())}`} className="bg-backProduct w-full h-[215px] flex justify-center items-center overflow-hidden">
+          <CldImage src={public_id} alt="product" className="mx-auto hover:scale-125 transition-all duration-500" width={170} height={100} quality={100}  />
+        </Link>
         <div className='flex flex-col gap-2 w-full pt-3'>
-          <p className='text-md font-medium w-full h-20'>{ name.toUpperCase() }</p>
+          <Link href={`/producto/${encodeURIComponent(product.name.toLowerCase())}`} className='text-md font-medium w-full h-20 hover:underline hover:underline-offset-2'>{ name.toUpperCase() }</Link>
           <p className="text-textProduct">{ id.toUpperCase() }</p>
           <p className="text-textProduct">{ supplier.toUpperCase() }</p>
-          <p className='text-md'>{"S/. "+ price + " Uni." }</p> 
+          <p className='text-md'>{"S/. "+ price.toFixed(2) + " x Uni." }</p> 
         </div>
         <div className="flex w-full mt-4 gap-5">
           <div className={`flex-grow flex ${isAdded ? 'bg-gray-500' : 'bg-rojo'} rounded-xl text-white transition-colors duration-500`}>

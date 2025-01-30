@@ -1,16 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductDatabase } from "@/backend/models/Product.modal";
 import { apiUrl } from "@/helper/Global";
 import { useFeaturesAdmin } from "@/zustand/useFeaturesAdmin";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 
 const axiosOptions: AxiosRequestConfig = {
   method: 'GET'
 }
 
-export default function useProducts() {
+const updateProduct = async (newProduct: ProductDatabase) => {
+  try{
+    const response = await axios.patch(`${apiUrl}private/product`, newProduct)
+    return response.data
+  }
+  catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.message)
+    }
+    throw error
+  }
+}
+
+export default function useProducts () {
   const queryClient = useQueryClient()
   const { setLoading, setError, setSuccess } = useFeaturesAdmin()
 
@@ -22,24 +34,25 @@ export default function useProducts() {
       return response.data;
     },
     refetchOnWindowFocus: false,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
   })
 
   /* Add new product */
   const { mutate } = useMutation({
-    mutationFn: async (newProduct: any) => {
+    mutationFn: async (newProduct: ProductDatabase) => {
       const response = await axios.post(apiUrl + 'private/product', newProduct, {
         method: 'POST'
       })
       return response.data.producto
     },
-    onSuccess: async (newProduct: any) => {
-      await queryClient.setQueryData(['products'], (oldData: any) => {
+    onSuccess: async (newProduct: ProductDatabase) => {
+      await queryClient.setQueryData(['products'], (oldData: ProductDatabase[]) => {
         if (oldData === null) return [newProduct]
         return [...oldData, newProduct]
       })
-      queryClient.invalidateQueries({
-        queryKey: ['products']
-      });
       setLoading({
         loading: false,
         messageLoading: ''
@@ -71,6 +84,19 @@ export default function useProducts() {
         })
       }, 3000)
       console.log(error.message)
+    }
+  })
+
+  const { mutate: deleteProduct } = useMutation({
+    mutationFn: async (id: string) => {
+      
+    }
+  })
+
+  const { mutate: actualizarProducto } = useMutation({
+    mutationFn: updateProduct,
+    onSuccess: (newProduct: ProductDatabase) => {
+
     }
   })
   

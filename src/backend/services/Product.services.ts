@@ -17,8 +17,19 @@ export async function searchProduct (id: string) {
   return product
 }
 
-export async function updateProduct (id:string, product: ProductDatabase) {
+export async function updateProduct (id: string, data: ProductDatabase) {
+  if (!id) {
+    throw new Error("Faltan ID del producto");
+  }
+  console.log("Llego hasta aqui chavales")
   await updateDoc(doc(PoloniaDB, "products", id), {
-    ...product
+    id: data.id,
+    name: data.name,
+    description: data.description,
+    price: data.price,
+    stock: data.stock,
+    category: data.category,
+    supplier: data.supplier,
+    updatedAt: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
   })
 }

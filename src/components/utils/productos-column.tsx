@@ -8,12 +8,13 @@ import Edit from '@/assets/icons/edit.svg'
 import Image from "next/image";
 import { useFeatures } from "@/zustand/useFeatures";
 import { useFeaturesAdmin } from "@/zustand/useFeaturesAdmin";
+import SheetEdit from "../sheet-edit";
 
 export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
   const { refetch } = useProducts()
   const { error: Error, setError, setErrorMessage } = useFeatures()
   const { setLoading: setLoadingAdmin, loadingMain: loadingMainAdmin, setSuccess } = useFeaturesAdmin()
-
+  if (product.url_images === undefined) return <></>
   const eliminarProducto = async (ID_Document?: string) => {
     if (loadingMainAdmin.loading) return
     try{ 
@@ -22,7 +23,7 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
         messageLoading: 'Eliminando producto...'
       })
       const url_publics: string[] = []
-      product.url_images.map((image) => {
+      product.url_images?.map((image) => {
         url_publics.push(image.public_id)
       })
       const response = await axios.delete(process.env.NEXT_PUBLIC_BACKEND_URL+ 'private/product', {
@@ -78,19 +79,22 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
         <div className="flex flex-col gap-2 items-center">
           <button 
             type="button" 
-            title="Editar"
+            title="Eliminar"
             onClick={() => eliminarProducto(product.ID_Document)}
             className='px-3 py-2 rounded-xl text-lg bg-rojo text-white w-fit'
           >
             <Image src={Trash} alt="trash" width={30} height={30} />
           </button>
-          <button 
+          <SheetEdit 
+            product={product}
+          />
+          {/*<button 
             type="button"
-            title="Eliminar"
+            title="Editar"
             className='px-3 py-2 rounded-xl text-lg bg-edit text-white w-fit' 
           >
             <Image src={Edit} alt="editar" width={30} height={30} />
-          </button>
+          </button>*/}
         </div>
       </td>
     </tr>

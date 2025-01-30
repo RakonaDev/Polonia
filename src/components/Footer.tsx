@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function Footer() {
 
   return (
-    <footer className='max-w-[90rem] w-full mx-auto px-4 sm:px-6 lg:px-2'>
+    <footer className='max-w-[90rem] w-full mx-auto px-4 sm:px-6 lg:px-2 mt-20'>
       <section className='flex mb-10 gap-6'>
         <div className='contacto-container flex-grow'>
           <h1 className='text-white font-bold text-4xl'>CONTACTO</h1>
@@ -26,7 +26,9 @@ export default function Footer() {
           </nav>
         </div>
         <div className='flex-grow text-white'>
+          <nav>
 
+          </nav>
         </div>
       </section>
       <p className='text-white'>Diseñado por <a href="https://www.raikicor.com/" rel='noopener' target='_blank' className='hover:text-rojo'>Raiki</a> | By POLONIA. 2023 © Reservados todos los derechos.</p>

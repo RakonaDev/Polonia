@@ -14,7 +14,7 @@ export default function FooterLayout() {
   const pathname = usePathname()
   return (
     <div className='bg-[#353535] w-full py-20'>
-      {Routes.includes(pathname) ? <Footer /> : null}
+      {Routes.includes(pathname) || pathname.includes('producto') ? <Footer /> : null}
     </div>
   )
 }
