@@ -12,7 +12,12 @@ import { FaCreditCard } from "react-icons/fa";
 import { MdDiscount } from "react-icons/md";
 import { MdSupportAgent } from "react-icons/md";
 
-export default async function Page({ params }: { params: { name: string } }) {
+interface PageProps {
+  params: { name: string };
+}
+
+
+export default async function Page({ params }: PageProps) {
   const { name } = params
   if (!params?.name) return <div>Producto no encontrado</div>;
   const nombre = decodeURIComponent(name.replace(/-/g, " ").toLowerCase());
