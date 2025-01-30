@@ -16,6 +16,9 @@ interface PageProps {
   params: { name: string };
 }
 
+export async function generateStaticParams() {
+  return [{ name: "ejemplo" }, { name: "otro-producto" }];
+}
 
 export default async function Page({ params }: PageProps) {
   const { name } = params
@@ -86,3 +89,5 @@ export default async function Page({ params }: PageProps) {
     </main>
   )
 }
+
+export const dynamic = "force-dynamic";
