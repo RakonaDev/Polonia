@@ -40,7 +40,6 @@ export default async function Page({
   if (snapshot.empty || !snapshot.docs[0]) {
     return notFound();  // Retorna un 404 si no hay coincidencias
   }
-
   const producto = snapshot.docs[0].data() as ProductDatabase
 
   return (

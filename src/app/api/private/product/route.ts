@@ -7,9 +7,10 @@ import {
   updateProduct,
 } from "@/backend/services/Product.services";
 import fs from "node:fs";
-import { getDocs, query } from "firebase/firestore";
+import { FirestoreError, getDocs, query, serverTimestamp } from "firebase/firestore";
 import { productCollection } from "@/backend/collections/product.collection";
 import { ProductDatabase } from "@/backend/models/Product.modal";
+import { FirebaseError } from "firebase/app";
 
 cloudinary.v2.config({
   cloud_name: "dur0pnewh",
@@ -175,18 +176,20 @@ export async function PATCH(req: NextRequest) {
     const categoria = data.get("categoria")?.toString();
     const supplier = data.get("supplier")?.toString().toLowerCase();
     const stock = data.get("stock")?.toString();
-    const descripcion = data.get("descripcion")?.toString();
+    const descripcion = data.get("description")?.toString();
 
     if (
-      id === undefined ||
-      supplier === undefined ||
-      nombre === undefined ||
-      precio === undefined ||
-      stock === undefined
-    )
-      throw new Error("Deben que estas los parametros básicos");
-    console.log(ID_Document)
-    console.log(id)
+      !id ||
+      !supplier ||
+      !nombre ||
+      !precio ||
+      !stock ||
+      isNaN(Number(precio)) ||
+      isNaN(Number(stock))
+    ) {
+      throw new Error("Faltan parámetros básicos o tienen valores inválidos");
+    }
+
     const datos: ProductDatabase = {
       id: id,
       name: nombre,
@@ -195,8 +198,8 @@ export async function PATCH(req: NextRequest) {
       description: descripcion,
       supplier: supplier,
       stock: Number(stock),
-      updatedAt: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
-    }
+      updatedAt: String(serverTimestamp()),
+    };
     await updateProduct(ID_Document, datos);
 
     return NextResponse.json(
@@ -204,6 +207,12 @@ export async function PATCH(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    if (error instanceof FirebaseError) {
+      return NextResponse.json({ message: error.message, error: error.stack }, { status: 404 });
+    }
+    if (error instanceof FirestoreError){
+      return NextResponse.json({ message: error.message, error: error.stack }, { status: 404 });
+    }
     return NextResponse.json({ message: error }, { status: 500 });
   }
 }

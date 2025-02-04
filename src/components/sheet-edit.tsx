@@ -78,12 +78,6 @@ export default function SheetEdit({ product }: { product: ProductDatabase }) {
           messageSuccess: ''
         })
       }, 5000)
-      setNombreEditar('')
-      setPrecioEditar('')
-      setCategoriaEditar('')
-      setProveedorEditar('')
-      setStockEditar(0)
-      setDescripcionEditar('')
       products?.map((product) => {
         if (product.id === id_producto) {
           product.name = nombreEditar

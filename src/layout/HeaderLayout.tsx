@@ -105,7 +105,7 @@ export default function HeaderLayout() {
             null
         }
       </AnimatePresence>
-      {Routes.includes(pathname) || pathname.includes('producto') ? <Header /> : null}
+      {Routes.includes(pathname) || pathname.includes('/producto/') ? <Header /> : null}
     </>
   )
 }

@@ -66,10 +66,10 @@ export const ProductosColumn = (product: ProductDatabase): JSX.Element => {
   return (
     <tr key={product.id}>
       <td className='text-center p-2'>{product.id}</td>
-      <td className='text-center p-2'>{product.name}</td>
-      <td className='text-center p-2'>{product.price}</td>
+      <td className='text-center p-2'>{product.name.toUpperCase()}</td>
+      <td className='text-center p-2'>{product.price.toFixed(2)}</td>
       <td className='text-center p-2'>{product.category}</td>
-      <td className='text-center p-2'>{product.supplier}</td>
+      <td className='text-center p-2'>{product.supplier.toUpperCase()}</td>
       <td className='text-center p-2'>{product.stock}</td>
       <td className='text-center p-2'>{product.description}</td>
       <td className='text-center p-2 flex justify-center'>
