@@ -1,5 +1,8 @@
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
 import React from 'react'
+import Mision from '@/assets/icons/mision.png'
+import Vision from '@/assets/icons/vision.png'
+import Image from 'next/image'
 
 const socios = [
   {
@@ -50,18 +53,28 @@ export default async function NosotrosPage() {
           Con el tiempo, nuestra empresa creció y, lo que es aún más emocionante, ayudamos a dar a conocer a varias marcas que no eran nuestras, todo gracias a la confianza, la seguridad y la amistad que construimos con nuestros clientes. En la actualidad, nuestra empresa emplea a cinco trabajadores y los tres socios originales, todos trabajando incansablemente para seguir expandiendo nuestros horizontes.
           Hoy, nos enorgullece anunciar que estamos lanzando nuestra propia marca con el objetivo de convertirla en líder en el mercado. Con una dedicación inquebrantable, estamos decididos a hacer que este sueño se convierta en una realidad tangible.
         </p>
-        <section className='text-gris mt-10 flex gap-10'>
-          <div>
-            <h1 className='text-5xl font-bold'>Misión</h1>
-            <p className='text-lg mt-5'>
-              Impulsar el crecimiento de los negocios de nuestros clientes a través de la distribución de una amplia variedad de repuestos eléctricos, iluminación y sistemas de encendido automotriz. Nos comprometemos a proporcionar la mejor calidad, sostenibilidad y eficiencia operativa en cada producto que ofrecemos, para que nuestros clientes puedan prosperar y alcanzar sus metas comerciales de manera exitosa.
-            </p>
+        <section className='text-gris my-10 space-y-10'>
+          <div className='flex gap-10'>
+            <div className='w-1/2'>
+              <Image src={Mision} alt='Misión' width={300} height={300} className='mx-auto' />
+            </div>
+            <div className='w-1/2'>
+              <h1 className='text-5xl font-bold'>Misión</h1>
+              <p className='text-lg mt-5'>
+                Impulsar el crecimiento de los negocios de nuestros clientes a través de la distribución de una amplia variedad de repuestos eléctricos, iluminación y sistemas de encendido automotriz. Nos comprometemos a proporcionar la mejor calidad, sostenibilidad y eficiencia operativa en cada producto que ofrecemos, para que nuestros clientes puedan prosperar y alcanzar sus metas comerciales de manera exitosa.
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className='text-5xl font-bold'>Visión</h1>
-            <p className='text-lg mt-5'>
+          <div className='flex gap-10'>
+            <div className='w-1/2'>
+              <h1 className='text-5xl font-bold'>Visión</h1>
+              <p className='text-lg mt-5'>
                 Es convertirnos en la empresa líder en ventas, distribución e importación de repuestos eléctricos, iluminación y sistemas de encendido automotriz en el Perú. Nos esforzamos por ofrecer un servicio de la más alta calidad, construyendo relaciones basadas en la confianza y el compromiso con nuestros valiosos clientes.
-            </p>
+              </p>
+            </div>
+            <div className='w-1/2'>
+              <Image src={Vision} alt='Misión' width={300} height={300} className='mx-auto'/>
+            </div>
           </div>
         </section>
       </div>

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { productCollection } from "@/backend/collections/product.collection";
 import { getDocs, query } from "firebase/firestore";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const data: any[] = [];
   try {
     const q = query(productCollection)

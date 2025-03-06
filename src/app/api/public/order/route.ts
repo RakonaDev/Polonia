@@ -9,9 +9,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const validation = userInfoSchema.safeParse(body);
-    console.log("VALIDATION: ", validation.error?.errors);
     if (validation.success) {
-      console.log("BODY DE ORDER: ", validation.data);
       const { nombre, apellido, direccion, distrito, ubicacion, telefono, correo } = validation.data;
       const response = await preference.create({
         body: {
@@ -32,7 +30,7 @@ export async function POST(req: NextRequest) {
             success: process.env.NEXT_PUBLIC_URL + "success",
           },
           notification_url:
-            process.env.NEXT_PUBLIC_URL + "api/public/order/webhook",
+            process.env.NEXT_PUBLIC_BACKEND_URL + "api/public/order/webhook",
         },
       });
       return NextResponse.json(response, { status: 200 });

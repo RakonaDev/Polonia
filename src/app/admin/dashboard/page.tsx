@@ -2,6 +2,7 @@
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useUser } from "@clerk/nextjs"
 import { BarChart } from '@mui/x-charts/BarChart';
+import useUsers from '@/hook/useUsers';
 
 const DatosProductos = [
   { id: 0, value: 20, label: 'IM-11031', color: 'black' },
@@ -12,13 +13,13 @@ const DatosProductos = [
 ]
 
 export default function DashboardPage() {
-  const user = useUser()
+  // const { data } = useUsers()
   return (
     <main className="mt-6 h-auto">
       <h1 className="text-4xl font-bold">Dashboard</h1>
       <div className='mt-10 flex gap-10'>
         <main className='lg:w-2/3 flex flex-col gap-5'>
-          <div className='w-full flex flex-wrap gap-5'>
+          <div className='w-full flex flex-wrap'>
             {/*<div className='min-w-[300px] p-5 border-2 border-gray-300 shadow-md shadow-gray-400 rounded-lg'>
               <p>Usuario: {}</p>
               <div>
@@ -74,7 +75,20 @@ export default function DashboardPage() {
               className='mt-10'
             />
             <div className='mt-5'>
-              
+              <div className='grid grid-cols-12 gap-5 mb-5'>
+                <div className='col-span-4 text-base text-center font-bold'>Color</div>
+                <div className='col-span-4 text-base text-center font-bold'>Código Producto</div>
+                <div className='col-span-4 text-base text-center font-bold'>Vendido</div>
+              </div>
+              {
+                DatosProductos.map((producto, index) => (
+                  <div key={index} className='grid grid-cols-12 gap-5 my-2 items-center'>
+                    <div className='w-7 h-7 rounded-xl col-span-4 mx-auto' style={{ backgroundColor: producto.color }}></div>
+                    <p className='text-sm col-span-4 text-center'>{producto.label}</p>
+                    <p className='text-sm col-span-4 text-center'>{producto.value}</p>
+                  </div>
+                ))
+              }
             </div>
           </div>
         </aside>
