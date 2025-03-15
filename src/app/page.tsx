@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import useProducts from "@/hook/useProducts";
 import { ProductDatabase } from "@/backend/models/Product.modal";
+import SwiperDynamic from "@/components/SwiperDynamic";
 /* "S/. 20 Uni - S/ 15 3 Uni. a más" */
 export default function InicioPage() {
   const { user } = useUser()
@@ -27,7 +28,7 @@ export default function InicioPage() {
       <main className='w-full min-h-screen h-auto'>
         <div className='max-w-[90rem] w-full mx-auto p-2'>
           <header className='mt-12'>
-            <Image src={BannerInicio} alt="banner" className='w-full h-auto' width={1280} height={341} />
+            <SwiperDynamic />
           </header>
           <section className='w-full h-auto grid grid-cols-product gap-10 mt-16 py-10'>
             {/*
