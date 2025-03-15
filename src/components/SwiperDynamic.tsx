@@ -17,7 +17,7 @@ const BannerSwiper: string[] = [
 
 export default function SwiperDynamic () {
   return (
-    <div>
+    <div className='z-10'>
       <Swiper
         modules={[Autoplay]}
         autoplay={{

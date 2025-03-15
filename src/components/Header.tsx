@@ -73,7 +73,7 @@ export function Header() {
         </div>
       </header>
       <div className={`h-24 w-full ${pathname === '/contacto' ? 'bg-contacto' : 'bg-white'}`}></div>
-      <header className={`w-full h-auto group fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
+      <header className={`z-50 w-full h-auto group fixed duration-100 transition-all ${isScrolled ? 'top-0' : 'top-10'}`}>
         <div className="bg-rojo relative z-30">
           <div className="max-w-[90rem] w-full mx-auto p-4 flex gap-6 items-center">
             <Image src={Logo} alt="" className="h-10 my-auto" width={190} height={50} />
